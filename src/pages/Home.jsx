@@ -6,6 +6,7 @@ import PizzaBlock from '../components/PizzaBlock/PizzaBlock'
 import Skeleton from '../components/PizzaBlock/Skeleton'
 import Sort from '../components/Sort'
 
+
 export default function Home() {
 	const { searchValue } = use(SearchContext)
 	const [items, setItems] = useState([])
