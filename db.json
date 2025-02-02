@@ -1,0 +1,102 @@
+[
+  {
+    "id": 0,
+    "imageUrl": "https://media.dodostatic.com/image/r:233x233/11ef028428df5aad9d50171778670692.avif",
+    "title": "Пепперони Фреш с перцем",
+    "types": [0, 1],
+    "sizes": [26, 30, 40],
+    "price": 803,
+    "category": 0,
+    "rating": 4
+  },
+  {
+    "id": 1,
+    "imageUrl": "https://media.dodostatic.com/image/r:233x233/11ee7d5da07719c9b2ae7fdf4e95727b.avif",
+    "title": "Сырная",
+    "types": [0],
+    "sizes": [26, 40],
+    "price": 245,
+    "category": 0,
+    "rating": 6
+  },
+  {
+    "id": 2,
+    "imageUrl": "https://media.dodostatic.com/image/r:233x233/11ee7d5dacafcd168e978bd6719cf4a2.avif",
+    "title": "Цыпленок барбекю",
+    "types": [0],
+    "sizes": [26, 40],
+    "price": 295,
+    "category": 1,
+    "rating": 4
+  },
+  {
+    "id": 3,
+    "imageUrl": "https://media.dodostatic.com/image/r:233x233/11ee7d5da4e07becbbad064384e153f1.avif",
+    "title": "Кисло-сладкий цыпленок",
+    "types": [1],
+    "sizes": [26, 30, 40],
+    "price": 275,
+    "category": 2,
+    "rating": 2
+  },
+  {
+    "id": 4,
+    "imageUrl": "https://media.dodostatic.com/image/r:233x233/11ef0286349b277780cb97a8544a6aec.avif",
+    "title": "Чизбургер-пицца",
+    "types": [0, 1],
+    "sizes": [26, 30, 40],
+    "price": 415,
+    "category": 3,
+    "rating": 8
+  },
+  {
+    "id": 5,
+    "imageUrl": "https://media.dodostatic.com/image/r:233x233/11ef0287085bd4ae92667083f5ca6dd2.avif",
+    "title": "Крэйзи пепперони",
+    "types": [0],
+    "sizes": [30, 40],
+    "price": 580,
+    "category": 2,
+    "rating": 2
+  },
+  {
+    "id": 6,
+    "imageUrl": "https://media.dodostatic.com/image/r:233x233/11ef2408c8ec0497905b52c6bd3cd6da.avif",
+    "title": "Пепперони",
+    "types": [0, 1],
+    "sizes": [26, 30, 40],
+    "price": 675,
+    "category": 1,
+    "rating": 9
+  },
+  {
+    "id": 7,
+    "imageUrl": "https://media.dodostatic.com/image/r:233x233/11ef0283dfe3970ba555b0d85e5c8302.avif",
+    "title": "Маргарита",
+    "types": [0, 1],
+    "sizes": [26, 30, 40],
+    "price": 450,
+    "category": 4,
+    "rating": 10
+  },
+  {
+    "id": 8,
+    "imageUrl": "https://media.dodostatic.com/image/r:233x233/11ef02823dba2cb09ee4f90cbc5e227a.avif",
+    "title": "Четыре сезона",
+    "types": [0, 1],
+    "sizes": [26, 30, 40],
+    "price": 395,
+    "category": 5,
+    "rating": 10
+  },
+  {
+    "id": 9,
+    "imageUrl": "https://media.dodostatic.com/image/r:233x233/11ee8670418ef24a86bc27437a23fcc4.avif",
+    "title": "Овощи и грибы 🌱",
+    "types": [0, 1],
+    "sizes": [26, 30, 40],
+    "price": 285,
+    "category": 5,
+    "rating": 7
+  }
+]
