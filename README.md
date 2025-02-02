@@ -1,8 +1,20 @@
-# React + Vite
+# React Pizza V2 🍕 (TypeScript + Redux Toolkit)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Описание
 
-Currently, two official plugins are available:
+Это приложение для заказа пиццы, разработанное с использованием **React**, **TypeScript** и **Redux Toolkit**. Приложение позволяет пользователю выбрать ингредиенты для пиццы, добавить их в корзину и оформить заказ. Все данные о пицце и корзине хранятся в Redux.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Технологии
+
+- **React** — Библиотека для создания пользовательских интерфейсов.
+- **TypeScript** — Надстройка над JavaScript, добавляющая статическую типизацию.
+- **Redux Toolkit** — Современный способ работы с состоянием в React-приложениях.
+- **React Router** — Для маршрутизации в приложении.
+- **Axios** — Для запросов к API (если нужно для получения данных о пиццах и добавлении их в корзину).
+- **SCSS** — Для стилизации приложения (или CSS, если используешь).
+
+## Установка
+
+1. Клонируй репозиторий:
+   ```bash
+   git clone git@github.com:Grom1806/React-pizza-V2.git
