@@ -1,7 +1,11 @@
 import { useRef, useState } from 'react'
 import { CSSTransition } from 'react-transition-group'
+import { useDispatch, useSelector } from 'react-redux'
+import { setSort } from '../redux/slices/filterSlice'
 
-function Sort({ value, onChangeSort }) {
+function Sort() {
+	const sort = useSelector(state => state.filter.sort)
+	const dispatch = useDispatch()
 	const [isVisible, setIsVisible] = useState(false)
 	const sortList = [
 		{
@@ -20,7 +24,7 @@ function Sort({ value, onChangeSort }) {
 	const nodeRef = useRef(null)
 
 	const handleClickListItem = index => {
-		onChangeSort(index)
+		dispatch(setSort(index))
 		setIsVisible(false)
 	}
 
@@ -41,7 +45,7 @@ function Sort({ value, onChangeSort }) {
 					/>
 				</svg>
 				<b>Сортировка по:</b>
-				<span onClick={() => setIsVisible(!isVisible)}>{value.name}</span>
+				<span onClick={() => setIsVisible(!isVisible)}>{sort.name}</span>
 			</div>
 
 			<CSSTransition
@@ -57,7 +61,7 @@ function Sort({ value, onChangeSort }) {
 							<li
 								key={index}
 								className={
-									value.sortProperty === obj.sortProperty ? 'active' : ''
+									sort.name === obj.name ? 'active' : ''
 								}
 								onClick={() => handleClickListItem(obj)}
 							>

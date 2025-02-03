@@ -1,4 +1,5 @@
 import React, { use, useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { SearchContext } from '../App'
 import Categories from '../components/Categories'
 import PaginationComponent from '../components/Pagination/Pagination'
@@ -6,16 +7,12 @@ import PizzaBlock from '../components/PizzaBlock/PizzaBlock'
 import Skeleton from '../components/PizzaBlock/Skeleton'
 import Sort from '../components/Sort'
 
-
 export default function Home() {
+	const categoryIndex = useSelector(state => state.filter.categoryIndex)
 	const { searchValue } = use(SearchContext)
 	const [items, setItems] = useState([])
 	const [isLoading, setIsLoading] = useState(true)
-	const [categoryIndex, setCategoryIndex] = useState(0)
-	const [sortType, setSortType] = useState({
-		name: 'популярности',
-		sortProperty: 'rating',
-	})
+	const sortType = useSelector(state => state.filter.sort)
 	const [currentPage, setCurrentPage] = useState(1)
 	const [totalPages, setTotalPages] = useState(1)
 	const limit = 4
@@ -59,8 +56,8 @@ export default function Home() {
 	return (
 		<div className='container'>
 			<div className='content__top'>
-				<Categories value={categoryIndex} onChangeCategory={setCategoryIndex} />
-				<Sort value={sortType} onChangeSort={setSortType} />
+				<Categories />
+				<Sort />
 			</div>
 			<h2 className='content__title'>Все пиццы</h2>
 			<div className='content__items'>
