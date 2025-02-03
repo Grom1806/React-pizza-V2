@@ -1,30 +1,28 @@
 import { useRef, useState } from 'react'
 import { CSSTransition } from 'react-transition-group'
-import { useDispatch, useSelector } from 'react-redux'
-import { setSort } from '../redux/slices/filterSlice'
 
-function Sort() {
-	const sort = useSelector(state => state.filter.sort)
-	const dispatch = useDispatch()
+function Sort({ value, onChangeSort }) {
 	const [isVisible, setIsVisible] = useState(false)
 	const sortList = [
 		{
 			name: 'популярности по возрастанию',
 			sortProperty: '-rating',
+			
 		},
 		{
 			name: 'популярности по убыванию',
-			sortProperty: 'rating',
+			sortProperty: 'ating',
+			
 		},
-		{ name: 'цене по возрастанию', sortProperty: '-price' },
+		{ name: 'цене по возрастанию', sortProperty: '-price',  },
 		{ name: 'цене по убыванию', sortProperty: 'price', order: 'desc' },
-		{ name: 'алфавиту по возрастанию', sortProperty: '-title' },
-		{ name: 'алфавиту по убыванию', sortProperty: 'title' },
+		{ name: 'алфавиту по возрастанию', sortProperty: '-title',  },
+		{ name: 'алфавиту по убыванию', sortProperty: 'title',  },
 	]
 	const nodeRef = useRef(null)
 
 	const handleClickListItem = index => {
-		dispatch(setSort(index))
+		onChangeSort(index)
 		setIsVisible(false)
 	}
 
@@ -45,7 +43,7 @@ function Sort() {
 					/>
 				</svg>
 				<b>Сортировка по:</b>
-				<span onClick={() => setIsVisible(!isVisible)}>{sort.name}</span>
+				<span onClick={() => setIsVisible(!isVisible)}>{value.name}</span>
 			</div>
 
 			<CSSTransition
@@ -61,7 +59,7 @@ function Sort() {
 							<li
 								key={index}
 								className={
-									sort.name === obj.name ? 'active' : ''
+									value.sortProperty === obj.sortProperty ? 'active' : ''
 								}
 								onClick={() => handleClickListItem(obj)}
 							>

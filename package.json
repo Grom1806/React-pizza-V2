@@ -1,35 +1,39 @@
 {
-	"name": "react-pizza",
-	"private": true,
-	"version": "0.1.0",
-	"type": "module",
-	"scripts": {
-		"dev": "vite",
-		"build": "vite build",
-		"lint": "eslint .",
-		"preview": "vite preview"
-	},
-	"dependencies": {
-		"@emotion/react": "^11.14.0",
-		"@emotion/styled": "^11.14.0",
-		"@mui/material": "^6.4.2",
-		"@mui/styled-engine-sc": "^6.4.2",
-		"@reduxjs/toolkit": "^2.5.1",
-		"lucide-react": "^0.474.0",
-		"react": "^19.0.0",
-		"react-content-loader": "^7.0.0",
-		"react-dom": "^19.0.0",
-		"react-redux": "^9.2.0",
-		"react-router-dom": "^7.1.3",
-		"react-transition-group": "^4.4.5",
-		"sass": "^1.80.6",
-		"styled-components": "^6.1.14"
-	},
-	"devDependencies": {
-		"@types/react": "^18.3.12",
-		"@types/react-dom": "^18.3.1",
-		"@vitejs/plugin-react": "^4.3.3",
-		"globals": "^15.11.0",
-		"vite": "^5.4.10"
-	}
+  "name": "react-pizza",
+  "license": "MIT",
+  "author": "Grom1806",
+  "description": "React Pizza 2 🍕✨ – это тестовый проект, разработанный в рамках курса веб-разработки с использованием React ⚛️, Redux 🔄, TypeScript 🔤, SCSS 🖋️ и React Router 🚦. Проект представляет собой веб-приложение для онлайн-заказа пиццы 🍕, в котором пользователи могут выбрать начинку 🍅, размер 🍕 и количество 🍽️ пицц, а также оформить заказ через корзину 🛒.\nВ проекте используются современные технологии для управления состоянием (Redux 🔄), типизации данных (TypeScript 🔤), стилизации (SCSS 🖋️) и навигации (React Router 🚦), что позволяет создавать интерактивный и удобный интерфейс 👨‍💻💡. Этот проект служит практическим примером для освоения ключевых инструментов и принципов веб-разработки 🎓💻.",
+  "repository": "https://github.com/Grom1806/React-pizza-V2",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/material": "^6.4.2",
+    "@mui/styled-engine-sc": "^6.4.2",
+    "@reduxjs/toolkit": "^2.5.1",
+    "lucide-react": "^0.474.0",
+    "react": "^19.0.0",
+    "react-content-loader": "^7.0.0",
+    "react-dom": "^19.0.0",
+    "react-redux": "^9.2.0",
+    "react-router-dom": "^7.1.3",
+    "react-transition-group": "^4.4.5",
+    "sass": "^1.80.6",
+    "styled-components": "^6.1.14"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.3",
+    "globals": "^15.11.0",
+    "vite": "^5.4.10"
+  }
 }
