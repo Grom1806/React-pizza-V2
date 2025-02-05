@@ -56,9 +56,9 @@ export default function Home() {
 
 	// 🔄 Читаем параметры из URL при первом рендере
 	useEffect(() => {
-		if (location.search) {
+		if (window.location.search) {
 			const params = qs.parse(location.search.substring(1)); // 🗺 Разбираем параметры
-			const sort = sortList.find(obj => obj.sortProperty === params.sortProperty);
+			const sort = sortList.find(obj => obj.sortProperty === obj.sortProperty);
 
 			dispatch(
 				setFilters({

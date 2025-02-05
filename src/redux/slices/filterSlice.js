@@ -31,16 +31,25 @@ const filterSlice = createSlice({
 			state.currentPage = action.payload
 		},
 		setFilters(state, action) {
-			state.categoryId = Number(action.payload.categoryId) || 0;
-			state.sort = action.payload.sort || initialState.sort;
-			state.searchValue = action.payload.searchValue || '';
-			state.limit = Number(action.payload.limit) || initialState.limit;
-			state.currentPage = Number(action.payload.currentPage) || 1;
-			state.totalPages = Number(action.payload.totalPages) || 1;
-			
-	}
-	
-	
+			state.categoryId =
+				action.payload.categoryId !== undefined
+					? Number(action.payload.categoryId)
+					: 0
+			state.sort = action.payload.sort || initialState.sort
+			state.searchValue = action.payload.searchValue || ''
+			state.limit =
+				action.payload.limit !== undefined
+					? Number(action.payload.limit)
+					: initialState.limit
+			state.currentPage =
+				action.payload.currentPage !== undefined
+					? Number(action.payload.currentPage)
+					: 1
+			state.totalPages =
+				action.payload.totalPages !== undefined
+					? Number(action.payload.totalPages)
+					: 1
+		},
 	},
 })
 
@@ -50,7 +59,7 @@ export const {
 	setSearchValue,
 	setCurrentPage,
 	setTotalPages,
-	setFilters
+	setFilters,
 } = filterSlice.actions
 
 export default filterSlice.reducer
