@@ -1,33 +1,53 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { CSSTransition } from 'react-transition-group'
+import { useDispatch, useSelector } from 'react-redux'
+import { setSort } from '../redux/slices/filterSlice'
 
-function Sort({ value, onChangeSort }) {
+export 	const sortList = [
+	{ name: 'популярности по возрастанию', sortProperty: '-rating' },
+	{ name: 'популярности по убыванию', sortProperty: 'rating' },
+	{ name: 'цене по возрастанию', sortProperty: '-price' },
+	{ name: 'цене по убыванию', sortProperty: 'price' },
+	{ name: 'алфавиту по возрастанию', sortProperty: '-title' },
+	{ name: 'алфавиту по убыванию', sortProperty: 'title' },
+]
+function Sort() {
+
+	const dispatch = useDispatch()
+	const sort = useSelector(state => state.filter.sort)
+
 	const [isVisible, setIsVisible] = useState(false)
-	const sortList = [
-		{
-			name: 'популярности по возрастанию',
-			sortProperty: '-rating',
-			
-		},
-		{
-			name: 'популярности по убыванию',
-			sortProperty: 'ating',
-			
-		},
-		{ name: 'цене по возрастанию', sortProperty: '-price',  },
-		{ name: 'цене по убыванию', sortProperty: 'price', order: 'desc' },
-		{ name: 'алфавиту по возрастанию', sortProperty: '-title',  },
-		{ name: 'алфавиту по убыванию', sortProperty: 'title',  },
-	]
-	const nodeRef = useRef(null)
+	const sortRef = useRef(null) 
+	const nodeRef = useRef(null) 
 
-	const handleClickListItem = index => {
-		onChangeSort(index)
+
+
+	useEffect(() => {
+		const handleClickOutside = event => {
+			if (sortRef.current && !sortRef.current.contains(event.target)) {
+				setIsVisible(false)
+			}
+		}
+	
+		if (isVisible) {
+			document.addEventListener('mousedown', handleClickOutside)
+		} else {
+			document.removeEventListener('mousedown', handleClickOutside)
+		}
+	
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside)
+		}
+	}, [isVisible])
+	
+
+	const handleClickListItem = obj => {
+		dispatch(setSort(obj))
 		setIsVisible(false)
 	}
 
 	return (
-		<div className='sort'>
+		<div className='sort' ref={sortRef}>
 			<div className='sort__label'>
 				<svg
 					className={isVisible ? 'arrow rotate' : 'arrow'}
@@ -43,7 +63,7 @@ function Sort({ value, onChangeSort }) {
 					/>
 				</svg>
 				<b>Сортировка по:</b>
-				<span onClick={() => setIsVisible(!isVisible)}>{value.name}</span>
+				<span onClick={() => setIsVisible(!isVisible)}>{sort.name}</span>
 			</div>
 
 			<CSSTransition
@@ -58,9 +78,7 @@ function Sort({ value, onChangeSort }) {
 						{sortList.map((obj, index) => (
 							<li
 								key={index}
-								className={
-									value.sortProperty === obj.sortProperty ? 'active' : ''
-								}
+								className={sort.name === obj.name  ? 'active' : ''}
 								onClick={() => handleClickListItem(obj)}
 							>
 								{obj.name}

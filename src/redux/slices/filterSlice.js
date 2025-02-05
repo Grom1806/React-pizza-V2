@@ -6,29 +6,51 @@ const initialState = {
 		name: 'популярности',
 		sortProperty: 'rating',
 	},
-	currentPage: 1,
 	searchValue: '',
-};
-
+	limit: 4,
+	totalPages: 1,
+	currentPage: 1,
+}
 const filterSlice = createSlice({
 	name: 'filters',
 	initialState,
 	reducers: {
 		setCategoryId(state, action) {
-			state.categoryId = action.payload;
+			state.categoryId = action.payload
 		},
 		setSort(state, action) {
-			state.sort = action.payload;
-		},
-		setCurrentPage(state, action) {
-			state.currentPage = action.payload;
+			state.sort = action.payload
 		},
 		setSearchValue(state, action) {
-			state.searchValue = action.payload;
+			state.searchValue = action.payload
 		},
+		setTotalPages(state, action) {
+			state.totalPages = action.payload
+		},
+		setCurrentPage: (state, action) => {
+			state.currentPage = action.payload
+		},
+		setFilters(state, action) {
+			state.categoryId = Number(action.payload.categoryId) || 0;
+			state.sort = action.payload.sort || initialState.sort;
+			state.searchValue = action.payload.searchValue || '';
+			state.limit = Number(action.payload.limit) || initialState.limit;
+			state.currentPage = Number(action.payload.currentPage) || 1;
+			state.totalPages = Number(action.payload.totalPages) || 1;
+			
+	}
+	
+	
 	},
-});
+})
 
-export const { setCategoryId, setSort, setCurrentPage, setSearchValue } = filterSlice.actions;
+export const {
+	setCategoryId,
+	setSort,
+	setSearchValue,
+	setCurrentPage,
+	setTotalPages,
+	setFilters
+} = filterSlice.actions
 
-export default filterSlice.reducer;
+export default filterSlice.reducer

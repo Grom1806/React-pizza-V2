@@ -9,7 +9,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    @media (max-width: 768px) {
+    @media (max-width: 845px) {
       flex-direction: column;
       .header__logo {
         margin-bottom: 30px;

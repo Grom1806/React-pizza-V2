@@ -1,80 +1,115 @@
-import React, { useEffect, useState } from 'react'
-import { SearchContext } from '../App'
-import Categories from '../components/Categories'
-import PaginationComponent from '../components/Pagination/Pagination'
-import PizzaBlock from '../components/PizzaBlock/PizzaBlock'
-import Skeleton from '../components/PizzaBlock/Skeleton'
-import Sort from '../components/Sort'
+import axios from 'axios';
+import qs from 'qs';
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useLocation } from 'react-router-dom';
+import Categories from '../components/Categories';
+import PaginationComponent from '../components/Pagination/Pagination';
+import PizzaBlock from '../components/PizzaBlock/PizzaBlock';
+import Skeleton from '../components/PizzaBlock/Skeleton';
+import Sort, { sortList } from '../components/Sort';
+import { setFilters, setTotalPages } from '../redux/slices/filterSlice';
 
 export default function Home() {
-	const { searchValue } = use(SearchContext)
-	const [items, setItems] = useState([])
-	const [isLoading, setIsLoading] = useState(true)
-	const [categoryIndex, setCategoryIndex] = useState(0)
-	const [sortType, setSortType] = useState({
-		name: 'популярности',
-		sortProperty: 'rating',
-	})
-	const [currentPage, setCurrentPage] = useState(1)
-	const [totalPages, setTotalPages] = useState(1)
-	const limit = 4
+	const navigate = useNavigate();
+	const location = useLocation(); // 🌍 Получаем текущий URL
+	const dispatch = useDispatch();
 
-	useEffect(() => {
-		const fetchData = async () => {
-			setIsLoading(true)
-			const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc'
-			const sortBy = sortType.sortProperty.replace('-', '')
-			const category = categoryIndex ? `&category=${categoryIndex}` : ''
-			const search = searchValue ? `&search=${searchValue}` : ''
-			const page = `&page=${currentPage}&limit=${limit}`
+	// 🎛 Извлекаем состояние фильтров из Redux
+	const { limit, searchValue, sort, categoryId, currentPage, totalPages } = useSelector(state => state.filter);
+	const sortType = sort.sortProperty;
 
-			try {
-				const countResponse = await fetch(
-					`https://67366061aafa2ef222305c73.mockapi.io/pizza-block?${category}${search}`
-				)
-				if (!countResponse.ok)
-					throw new Error('Ошибка загрузки количества пицц!')
-				const countData = await countResponse.json()
-				setTotalPages(Math.ceil(countData.length / limit))
+	const [pizzas, setPizzas] = useState([]); // 🍕 Список пицц
+	const [isLoading, setIsLoading] = useState(true); // ⏳ Состояние загрузки
 
-				const response = await fetch(
-					`https://67366061aafa2ef222305c73.mockapi.io/pizza-block?${category}&sortBy=${sortBy}&order=${order}${search}${page}`
-				)
-				if (!response.ok) throw new Error('Ошибка загрузки данных!')
+	const isSearch = useRef(false); // 🔍 Флаг для проверки URL
+	const isMounted = useRef(false); // 🚀 Флаг первого рендера
 
-				const json = await response.json()
-				setItems(json)
-			} catch (error) {
-				console.error('Ошибка загрузки данных:', error.message)
-			} finally {
-				setIsLoading(false)
-				window.scrollTo(0, 0)
-			}
+	// 📡 Функция загрузки данных
+	const fetchData = async () => {
+		const order = sortType.includes('-') ? 'asc' : 'desc'; // 🔄 Определяем порядок сортировки
+		const sortBy = sortType.replace('-', ''); // 🔤 Форматируем параметр сортировки
+		const category = categoryId ? `&category=${categoryId}` : ''; // 🍕 Фильтр по категории
+		const search = searchValue ? `&search=${searchValue}` : ''; // 🔎 Фильтр по поиску
+		const page = `&page=${currentPage}&limit=${limit}`; // 📜 Пагинация
+
+		setIsLoading(true); // ⏳ Устанавливаем состояние загрузки
+
+		try {
+			// 📡 Запрос на получение списка пицц
+			const { data } = await axios.get(
+				`https://67366061aafa2ef222305c73.mockapi.io/pizza-block?${category}&sortBy=${sortBy}&order=${order}${search}${page}`
+			);
+			setPizzas(data);
+
+			// 🔢 Запрос на получение общего количества товаров для пагинации
+			const { data: totalData } = await axios.get(
+				`https://67366061aafa2ef222305c73.mockapi.io/pizza-block?${category}${search}`
+			);
+			dispatch(setTotalPages(Math.ceil(totalData.length / limit)));
+		} catch (error) {
+			console.error('❌ Ошибка при загрузке данных:', error);
+		} finally {
+			setIsLoading(false); // ✅ Выключаем состояние загрузки
 		}
+	};
 
-		fetchData()
-	}, [categoryIndex, sortType, searchValue, currentPage])
+	// 🔄 Читаем параметры из URL при первом рендере
+	useEffect(() => {
+		if (location.search) {
+			const params = qs.parse(location.search.substring(1)); // 🗺 Разбираем параметры
+			const sort = sortList.find(obj => obj.sortProperty === params.sortProperty);
+
+			dispatch(
+				setFilters({
+					...params,
+					sort,
+				})
+			);
+			isSearch.current = true; // ✅ Указываем, что параметры загружены
+		}
+	}, []);
+
+	// 📡 Запрос данных после изменения фильтров
+	useEffect(() => {
+		window.scrollTo(0, 0); // ⬆️ Скроллим наверх
+		if (!isSearch.current) {
+			fetchData(); // 📡 Вызываем загрузку данных
+		}
+		isSearch.current = false;
+	}, [categoryId, sortType, searchValue, currentPage, limit]);
+
+	// 🔗 Обновление URL при изменении фильтров
+	useEffect(() => {
+		if (isMounted.current) {
+			const queryString = qs.stringify({
+				sortProperty: sort.sortProperty,
+				categoryId,
+				currentPage,
+			});
+			navigate(`?${queryString}`); // 🔗 Обновляем строку запроса
+		}
+		isMounted.current = true;
+	}, [categoryId, sort.sortProperty, currentPage, navigate]);
 
 	return (
-		<div className='container'>
-			<div className='content__top'>
-				<Categories value={categoryIndex} onChangeCategory={setCategoryIndex} />
-				<Sort value={sortType} onChangeSort={setSortType} />
+		<div className="container">
+			<div className="content__top">
+				<Categories />
+				<Sort />
 			</div>
-			<h2 className='content__title'>Все пиццы</h2>
-			<div className='content__items'>
-				{isLoading
-					? [...new Array(limit)].map((_, index) => <Skeleton key={index} />)
-					: items.map(item => <PizzaBlock key={item.id} {...item} />)}
+			<h2 className="content__title">Все пиццы</h2>
+			<div className="content__items">
+				{isLoading ? (
+					[...new Array(limit)].map((_, index) => <Skeleton key={index} />) // ⏳ Отображаем скелетоны во время загрузки
+				) : pizzas.length === 0 ? (
+					<p>🚫 Пиццы не найдены</p>
+				) : (
+					pizzas.map(pizza => <PizzaBlock key={pizza.id} {...pizza} />) // 🍕 Отображаем карточки пицц
+				)}
 			</div>
 
-			{totalPages > 1 && (
-				<PaginationComponent
-					currentPage={currentPage}
-					onPageChange={setCurrentPage}
-					totalPages={totalPages}
-				/>
-			)}
+			{totalPages > 1 && <PaginationComponent />} {/* 📄 Показываем пагинацию если страниц больше одной */}
 		</div>
-	)
+	);
 }
