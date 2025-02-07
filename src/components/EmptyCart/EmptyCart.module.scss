@@ -1,0 +1,51 @@
+.container {
+  width: 100%;
+  max-width: 32rem;
+  margin: 0 auto;
+  background: white;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  gap: 1rem;
+}
+
+.iconWrapper {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 9999px;
+  background-color: #fff7ed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    width: 2rem;
+    height: 2rem;
+    color: #f97316;
+  }
+}
+
+.textContent {
+  text-align: center;
+}
+
+.title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.description {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.button {
+ margin-left: 50px;
+}
