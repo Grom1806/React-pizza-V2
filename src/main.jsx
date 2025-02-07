@@ -7,13 +7,13 @@ import { store } from './redux/store.js';
 import { SpeedInsights } from "@vercel/speed-insights/react"
 
 createRoot(document.getElementById('root')).render(
-  <SpeedInsights>
   <StrictMode>
     <BrowserRouter>
       <Provider store={store}>
-        <App />
+        <SpeedInsights>
+          <App />
+        </SpeedInsights>
       </Provider>
     </BrowserRouter>
   </StrictMode>
-  </SpeedInsights> 
 );
