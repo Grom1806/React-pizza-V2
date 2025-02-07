@@ -19,7 +19,6 @@
     "@mui/material": "^6.4.2",
     "@mui/styled-engine-sc": "^6.4.2",
     "@reduxjs/toolkit": "^2.5.1",
-    "@vercel/speed-insights": "^1.1.0",
     "axios": "^1.7.9",
     "lodash.debounce": "^4.0.8",
     "lucide-react": "^0.474.0",
