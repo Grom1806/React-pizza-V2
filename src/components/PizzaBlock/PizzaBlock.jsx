@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addToCart } from '../../redux/slices/cartSlice'
+import { motion } from 'framer-motion'
+
 const typeNames = ['тонкое', 'традиционное']
 
 function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
@@ -23,40 +25,83 @@ function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
 		}
 		dispatch(addToCart(item))
 	}
+
 	return (
 		<div className='pizza-block-wrapper'>
-			<div className='pizza-block'>
+			<motion.div
+				className='pizza-block'
+				initial={{ opacity: 0, y: 20 }}
+				animate={{ opacity: 1, y: 0 }}
+				transition={{ duration: 0.5, ease: 'easeOut' }}
+			>
 				<img className='pizza-block__image' src={imageUrl} alt='Pizza' />
 				<h4 className='pizza-block__title'>{title}</h4>
 				<div className='pizza-block__selector'>
 					<ul>
-						{types.map(type => (
-							<li
+						{types.map((type, index) => (
+							<motion.li
 								key={type}
-								className={activeType === type ? 'active' : ''}
-								onClick={() => setActiveType(type)}
+								className={activeType === index ? 'active' : ''}
+								onClick={() => setActiveType(index)}
+								initial={{ scale: 1, opacity: 0.7 }}
+								animate={{
+									scale: activeType === index ? 1.1 : 1,
+									opacity: activeType === index ? 1 : 0.7,
+								}}
+								transition={{
+									duration: 0.3,
+									type: 'spring',
+									stiffness: 300,
+								}}
 							>
 								{typeNames[type]}
-							</li>
+							</motion.li>
 						))}
 					</ul>
 					<ul>
 						{sizes.map((size, index) => (
-							<li
+							<motion.li
 								key={index}
 								className={activeSize === index ? 'active' : ''}
 								onClick={() => setActiveSize(index)}
+								initial={{ scale: 1, opacity: 0.7 }}
+								animate={{
+									scale: activeSize === index ? 1.1 : 1,
+									opacity: activeSize === index ? 1 : 0.7,
+								}}
+								transition={{
+									duration: 0.3,
+									type: 'spring',
+									stiffness: 300,
+								}}
 							>
 								{size} см.
-							</li>
+							</motion.li>
 						))}
 					</ul>
 				</div>
 				<div className='pizza-block__bottom'>
-					<div className='pizza-block__price'>от {price} ₽</div>
-					<button
+					<motion.div
+						className='pizza-block__price'
+						initial={{ y: 10 }}
+						animate={{ y: 0 }}
+						transition={{ duration: 0.4, ease: 'easeOut' }}
+					>
+						от {price} ₽
+					</motion.div>
+					<motion.button
 						onClick={onClickAdd}
 						className='button button--outline button--add'
+						initial={{ scale: 1 }}
+						whileHover={{
+							scale: 1.1, // Увеличение при наведении
+							rotate: 10, // Легкий поворот при наведении
+							transition: { duration: 0.2 },
+						}}
+						whileTap={{
+							scale: 0.95, // Уменьшение при клике
+							transition: { duration: 0.1 },
+						}}
 					>
 						<svg
 							width='12'
@@ -69,12 +114,12 @@ function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
 								d='M10.8 4.8H7.2V1.2C7.2 0.5373 6.6627 0 6 0C5.3373 0 4.8 0.5373 4.8 1.2V4.8H1.2C0.5373 4.8 0 5.3373 0 6C0 6.6627 0.5373 7.2 1.2 7.2H4.8V10.8C4.8 11.4627 5.3373 12 6 12C6.6627 12 7.2 11.4627 7.2 10.8V7.2H10.8C11.4627 7.2 12 6.6627 12 6C12 5.3373 11.4627 4.8 10.8 4.8Z'
 								fill='white'
 							/>
-						</svg>	
+						</svg>
 						<span>Добавить</span>
 						{addedCount > 0 && <i>{addedCount}</i>}
-					</button>
+					</motion.button>
 				</div>
-			</div>
+			</motion.div>
 		</div>
 	)
 }

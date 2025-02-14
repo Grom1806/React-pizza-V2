@@ -1,97 +1,79 @@
-import axios from 'axios'
 import qs from 'qs'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Categories from '../components/Categories'
 import PaginationComponent from '../components/Pagination/Pagination'
 import PizzaBlock from '../components/PizzaBlock/PizzaBlock'
 import Skeleton from '../components/PizzaBlock/Skeleton'
 import Sort, { sortList } from '../components/Sort'
 import { setFilters, setTotalPages } from '../redux/slices/filterSlice'
+import { fetchPizzas } from '../redux/slices/pizzasSlice'
 
 export default function Home() {
 	const navigate = useNavigate()
-	const location = useLocation() // 🌍 Получаем текущий URL
 	const dispatch = useDispatch()
 
-	// 🎛 Извлекаем состояние фильтров из Redux
+
 	const { limit, searchValue, sort, categoryId, currentPage, totalPages } =
 		useSelector(state => state.filter)
 	const sortType = sort.sortProperty
+	const { pizzas, totalPizzas, status } = useSelector(state => state.pizzas)
 
-	const [pizzas, setPizzas] = useState([]) // 🍕 Список пицц
-	const [isLoading, setIsLoading] = useState(true) // ⏳ Состояние загрузки
+	const isSearch = useRef(false)
+	const isMounted = useRef(false)
 
-	const isSearch = useRef(false) // 🔍 Флаг для проверки URL
-	const isMounted = useRef(false) // 🚀 Флаг первого рендера
-
-	// 📡 Функция загрузки данных
 	const fetchData = async () => {
-		const order = sortType.includes('-') ? 'asc' : 'desc' // 🔄 Определяем порядок сортировки
-		const sortBy = sortType.replace('-', '') // 🔤 Форматируем параметр сортировки
-		const category = categoryId ? `&category=${categoryId}` : '' // 🍕 Фильтр по категории
-		const search = searchValue ? `&search=${searchValue}` : '' // 🔎 Фильтр по поиску
-		const page = `&page=${currentPage}&limit=${limit}` // 📜 Пагинация
+		const order = sortType.includes('-') ? 'asc' : 'desc'
+		const sortBy = sortType.replace('-', '')
+		const category = categoryId ? `&category=${categoryId}` : ''
+		const search = searchValue ? `&search=${searchValue}` : ''
+		const page = `&page=${currentPage}&limit=${limit}`
 
-		setIsLoading(true) // ⏳ Устанавливаем состояние загрузки
-
-		try {
-			// 📡 Запрос на получение списка пицц
-			const { data } = await axios.get(
-				`https://67366061aafa2ef222305c73.mockapi.io/pizza-block?${category}&sortBy=${sortBy}&order=${order}${search}${page}`
-			)
-			setPizzas(data)
-
-			// 🔢 Запрос на получение общего количества товаров для пагинации
-			const { data: totalData } = await axios.get(
-				`https://67366061aafa2ef222305c73.mockapi.io/pizza-block?${category}${search}`
-			)
-			dispatch(setTotalPages(Math.ceil(totalData.length / limit)))
-		} catch (error) {
-			console.error('❌ Ошибка при загрузке данных:', error)
-		} finally {
-			setIsLoading(false) // ✅ Выключаем состояние загрузки
-		}
+		dispatch(fetchPizzas({ category, sortBy, order, search, page, limit }))
 	}
-
-	// 🔄 Читаем параметры из URL при первом рендере
+	useEffect(() => {
+		dispatch(setTotalPages(Math.ceil(totalPizzas / limit)))
+	}, [totalPizzas, limit])
+	
 	useEffect(() => {
 		if (window.location.search) {
-			const params = qs.parse(location.search.substring(1)) // 🗺 Разбираем параметры
-			const sort = sortList.find(obj => obj.sortProperty === obj.sortProperty)
-
-			dispatch(
-				setFilters({
-					...params,
-					sort,
-				})
+			const params = qs.parse(location.search.substring(1))
+			const sort = sortList.find(
+				obj => obj.sortProperty === params.sortProperty
 			)
-			isSearch.current = true // ✅ Указываем, что параметры загружены
+			if (sort) {
+				params.sort = sort
+			}
+
+			dispatch(setFilters(params))
+			isSearch.current = true
 		}
 	}, [])
-
-	// 📡 Запрос данных после изменения фильтров
 	useEffect(() => {
-		window.scrollTo(0, 0) // ⬆️ Скроллим наверх
+		window.scrollTo(0, 0)
+	}, [categoryId, sortType, searchValue])
+
+	useEffect(() => {
 		if (!isSearch.current) {
-			fetchData() // 📡 Вызываем загрузку данных
+			fetchData()
 		}
 		isSearch.current = false
-	}, [categoryId, sortType, searchValue, currentPage, limit])
+	}, [categoryId, sortType, searchValue, currentPage])
 
-	// 🔗 Обновление URL при изменении фильтров
 	useEffect(() => {
 		if (isMounted.current) {
-			const queryString = qs.stringify({
+			const params = {
 				sortProperty: sort.sortProperty,
-				categoryId,
+				categoryId: categoryId > 0 ? categoryId : null,
 				currentPage,
-			})
-			navigate(`?${queryString}`) // 🔗 Обновляем строку запроса
+			}
+			const queryString = qs.stringify(params, { skipNulls: true })
+
+			navigate(`/?${queryString}`)
 		}
 		isMounted.current = true
-	}, [categoryId, sort.sortProperty, currentPage, navigate])
+	}, [categoryId, sort.sortProperty, currentPage])
 
 	return (
 		<div className='container'>
@@ -101,16 +83,15 @@ export default function Home() {
 			</div>
 			<h2 className='content__title'>Все пиццы</h2>
 			<div className='content__items'>
-				{isLoading ? (
-					[...new Array(limit)].map((_, index) => <Skeleton key={index} />) // ⏳ Отображаем скелетоны во время загрузки
-				) : pizzas.length === 0 ? (
-					<p>🚫 Пиццы не найдены</p>
+				{status === 'loading' ? (
+					[...new Array(limit)].map((_, index) => <Skeleton key={index} />)
+				) : status === 'error' ? (
+					<h2>🚫 Пиццы не найдены</h2>
 				) : (
-					pizzas.map(pizza => <PizzaBlock key={pizza.id} {...pizza} />) // 🍕 Отображаем карточки пицц
+					pizzas.map(pizza => <PizzaBlock key={pizza.id} {...pizza} />)
 				)}
 			</div>
-			{totalPages > 1 && <PaginationComponent />}{' '}
-			{/* 📄 Показываем пагинацию если страниц больше одной */}
+			{totalPages > 1 && <PaginationComponent />}
 		</div>
 	)
 }
