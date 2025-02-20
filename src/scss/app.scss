@@ -65,7 +65,7 @@ body {
 				overflow: scroll;
 				overflow-y: hidden;
 				ul {
-					width: 785px;
+					max-width: 785px;
 				}
 			}
 			.sort {
@@ -302,7 +302,7 @@ body {
 				justify-content: center;
 				width: 210px;
 
-				border-color: color.scale(variables.$gray-line, $lightness: -10%);
+				border-color: color.scale(variables.$gray-line, $lightness: -10%) ;
 
 				span {
 					color: color.scale(variables.$gray-line, $lightness: -20%);

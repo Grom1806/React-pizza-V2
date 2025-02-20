@@ -7,91 +7,80 @@ import PaginationComponent from '../components/Pagination/Pagination'
 import PizzaBlock from '../components/PizzaBlock/PizzaBlock'
 import Skeleton from '../components/PizzaBlock/Skeleton'
 import Sort, { sortList } from '../components/Sort'
-import { setFilters, setTotalPages } from '../redux/slices/filterSlice'
-import { fetchPizzas } from '../redux/slices/pizzasSlice'
+import { selectFilter, setFilters, setTotalPages } from '../redux/slices/filterSlice'
+import { fetchPizzas, selectPizzaData } from '../redux/slices/pizzasSlice'
 
 export default function Home() {
-	const navigate = useNavigate()
-	const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    
+    const { limit, searchValue, sort, categoryId, currentPage, totalPages } =
+        useSelector(selectFilter)
+    const sortType = sort.sortProperty
+    const { pizzas, status } = useSelector(selectPizzaData)
+
+    const isMounted = useRef(false)
+    const isSearch = useRef(false)
+
+    const fetchData = async () => {
+        const order = sortType.includes('-') ? 'asc' : 'desc'
+        const sortBy = sortType.replace('-', '')
+        const category = categoryId > 0 ? `&category=${categoryId}` : ''
+        const search = searchValue ? `&search=${searchValue}` : ''
+        const page = `&page=${currentPage}&limit=${limit}`
+
+        dispatch(fetchPizzas({ category, sortBy, order, search, page, limit }))
+    }
+
+    useEffect(() => {
+        fetchData()
+    }, [])
 
 
-	const { limit, searchValue, sort, categoryId, currentPage, totalPages } =
-		useSelector(state => state.filter)
-	const sortType = sort.sortProperty
-	const { pizzas, totalPizzas, status } = useSelector(state => state.pizzas)
 
-	const isSearch = useRef(false)
-	const isMounted = useRef(false)
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [categoryId, sortType, searchValue, currentPage])
 
-	const fetchData = async () => {
-		const order = sortType.includes('-') ? 'asc' : 'desc'
-		const sortBy = sortType.replace('-', '')
-		const category = categoryId ? `&category=${categoryId}` : ''
-		const search = searchValue ? `&search=${searchValue}` : ''
-		const page = `&page=${currentPage}&limit=${limit}`
+   
+    useEffect(() => {
+        if (isSearch.current) {
+            fetchData()
+        }
+        isSearch.current = true
+    }, [categoryId, sortType, searchValue, currentPage])
 
-		dispatch(fetchPizzas({ category, sortBy, order, search, page, limit }))
-	}
-	useEffect(() => {
-		dispatch(setTotalPages(Math.ceil(totalPizzas / limit)))
-	}, [totalPizzas, limit])
-	
-	useEffect(() => {
-		if (window.location.search) {
-			const params = qs.parse(location.search.substring(1))
-			const sort = sortList.find(
-				obj => obj.sortProperty === params.sortProperty
-			)
-			if (sort) {
-				params.sort = sort
-			}
 
-			dispatch(setFilters(params))
-			isSearch.current = true
-		}
-	}, [])
-	useEffect(() => {
-		window.scrollTo(0, 0)
-	}, [categoryId, sortType, searchValue])
+    useEffect(() => {
+        if (isMounted.current) {
+            const params = {
+                sortProperty: sort.sortProperty,
+                categoryId: categoryId > 0 ? categoryId : null,
+                currentPage,
+            }
+            const queryString = qs.stringify(params, { skipNulls: true })
+            navigate(`/?${queryString}`)
+        }
+				isMounted.current = true
+    }, [categoryId, sort.sortProperty, currentPage])
 
-	useEffect(() => {
-		if (!isSearch.current) {
-			fetchData()
-		}
-		isSearch.current = false
-	}, [categoryId, sortType, searchValue, currentPage])
-
-	useEffect(() => {
-		if (isMounted.current) {
-			const params = {
-				sortProperty: sort.sortProperty,
-				categoryId: categoryId > 0 ? categoryId : null,
-				currentPage,
-			}
-			const queryString = qs.stringify(params, { skipNulls: true })
-
-			navigate(`/?${queryString}`)
-		}
-		isMounted.current = true
-	}, [categoryId, sort.sortProperty, currentPage])
-
-	return (
-		<div className='container'>
-			<div className='content__top'>
-				<Categories />
-				<Sort />
-			</div>
-			<h2 className='content__title'>Все пиццы</h2>
-			<div className='content__items'>
-				{status === 'loading' ? (
-					[...new Array(limit)].map((_, index) => <Skeleton key={index} />)
-				) : status === 'error' ? (
-					<h2>🚫 Пиццы не найдены</h2>
-				) : (
-					pizzas.map(pizza => <PizzaBlock key={pizza.id} {...pizza} />)
-				)}
-			</div>
-			{totalPages > 1 && <PaginationComponent />}
-		</div>
-	)
+    return (
+        <div className='container'>
+            <div className='content__top'>
+                <Categories />
+                <Sort />
+            </div>
+            <h2 className='content__title'>Все пиццы</h2>
+            <div className='content__items'>
+                {status === 'loading' ? (
+                    [...new Array(limit)].map((_, index) => <Skeleton key={index} />)
+                ) : status === 'error' ? (
+                    <h2>🚫 Пиццы не найдены</h2>
+                ) : (
+                    pizzas.map(pizza => <PizzaBlock key={pizza.id} {...pizza} />)
+                )}
+            </div>
+            {totalPages > 1 && <PaginationComponent />}
+        </div>
+    )
 }

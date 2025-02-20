@@ -20,8 +20,8 @@ function Categories() {
             onClick={() => dispatch(setCategoryId(i))}
             initial={{ opacity: 0, y: 10 }}
             animate={{
-              opacity: categoryId === i ? 1 : 0.7, // Тускнеет неактивная категория
-              y: categoryId === i ? -10 : 0, // Выдвигается активная категория
+              opacity: categoryId === i ? 1 : 0.7,
+              y: categoryId === i ? -5 : 0, 
               transition: {
                 duration: 0.4,
                 ease: 'easeOut',

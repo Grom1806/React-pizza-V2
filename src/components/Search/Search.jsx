@@ -3,6 +3,7 @@ import React, { useCallback, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { setSearchValue } from '../../redux/slices/filterSlice'
 import * as styles from './search.module.scss'
+import { motion } from 'framer-motion'
 
 const Search = () => {
 	const [value, setValue] = useState('')

@@ -4,21 +4,19 @@ import Cart from '../Cart';
 import Home from '../Home';
 import NotFound from '../NotFound';
 import '../../scss/app.scss';
-
+import FullPizza from '../FullPizza';
 const pageVariants = {
-  initial: { opacity: 0, scale: 0.95, y: 30, filter: "blur(10px)" },
+  initial: { opacity: 0, scale: 0.95, y: 30 },
   animate: { 
     opacity: 1, 
     scale: 1, 
     y: 0, 
-    filter: "blur(0px)",
     transition: { duration: 0.6, ease: "easeOut" } 
   },
   exit: { 
     opacity: 0, 
     scale: 1.05, 
     y: -30, 
-    filter: "blur(10px)", 
     transition: { duration: 0.4, ease: "easeIn" } 
   },
 };
@@ -43,6 +41,20 @@ const pageVariants = {
             </motion.div>
           }
         />
+        <Route 
+          path="/pizza/:id"
+          element={
+            <motion.div
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              variants={pageVariants}
+            >
+              <FullPizza />
+            </motion.div>
+          }
+        />
+        
         <Route
           path="/cart"
           element={

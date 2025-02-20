@@ -1,19 +1,20 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
+import { setTotalPages } from './filterSlice'
 
 export const fetchPizzas = createAsyncThunk(
   'pizzas/fetchPizzasStatus',
-  async (params, { rejectWithValue }) => {
+  async (params, { rejectWithValue, dispatch }) => {
     try {
-      const { category, sortBy, order, search, page } = params
+      const { category, sortBy, order, search, page, limit, fullPizzaPage} = params
       const { data } = await axios.get(
         `https://67366061aafa2ef222305c73.mockapi.io/pizza-block?${category}&sortBy=${sortBy}&order=${order}${search}${page}`
       )
       const { data: totalData } = await axios.get(
         `https://67366061aafa2ef222305c73.mockapi.io/pizza-block?${category}${search}`
       )
-
-      return { pizzas: data, totalPizzas: totalData.length }
+			dispatch(setTotalPages(Math.ceil(totalData.length / limit)))
+      return { pizzas: data}
     } catch (error) {
       console.error('Error fetching pizzas:', error)
 			return rejectWithValue(error)
@@ -55,5 +56,7 @@ const pizzasSlice = createSlice({
 			})
 	},
 })
+
+export const selectPizzaData = (state) => state.pizzas
 
 export default pizzasSlice.reducer

@@ -1,15 +1,16 @@
+import NumberFlow from '@number-flow/react'
+import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { addToCart } from '../../redux/slices/cartSlice'
-import { motion } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
+import { addToCart, selectCartItemById } from '../../redux/slices/cartSlice'
 
 const typeNames = ['тонкое', 'традиционное']
 
 function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
 	const dispatch = useDispatch()
-	const cartItem = useSelector(state =>
-		state.cart.pizzas.find(obj => obj.id === id)
-	)
+	const navigate = useNavigate()
+	const cartItem = useSelector(selectCartItemById(id))
 	const [activeType, setActiveType] = useState(0)
 	const [activeSize, setActiveSize] = useState(0)
 
@@ -25,6 +26,9 @@ function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
 		}
 		dispatch(addToCart(item))
 	}
+	const openFullPizza = () => {
+		navigate(`/pizza/${id}`)
+	}
 
 	return (
 		<div className='pizza-block-wrapper'>
@@ -34,7 +38,12 @@ function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ duration: 0.5, ease: 'easeOut' }}
 			>
-				<img className='pizza-block__image' src={imageUrl} alt='Pizza' />
+				<img
+					className='pizza-block__image'
+					src={imageUrl}
+					alt='Pizza'
+					onClick={openFullPizza}
+				/>
 				<h4 className='pizza-block__title'>{title}</h4>
 				<div className='pizza-block__selector'>
 					<ul>
@@ -45,7 +54,7 @@ function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
 								onClick={() => setActiveType(index)}
 								initial={{ scale: 1, opacity: 0.7 }}
 								animate={{
-									scale: activeType === index ? 1.1 : 1,
+									scale: activeType === index ? 1 : 0.9,
 									opacity: activeType === index ? 1 : 0.7,
 								}}
 								transition={{
@@ -94,12 +103,12 @@ function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
 						className='button button--outline button--add'
 						initial={{ scale: 1 }}
 						whileHover={{
-							scale: 1.1, // Увеличение при наведении
-							rotate: 10, // Легкий поворот при наведении
+							scale: 1.1,
+							rotate: 10,
 							transition: { duration: 0.2 },
 						}}
 						whileTap={{
-							scale: 0.95, // Уменьшение при клике
+							scale: 0.95,
 							transition: { duration: 0.1 },
 						}}
 					>
@@ -116,7 +125,12 @@ function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
 							/>
 						</svg>
 						<span>Добавить</span>
-						{addedCount > 0 && <i>{addedCount}</i>}
+						{addedCount > 0 && (
+							<i>
+								{' '}
+								<NumberFlow trend={0} value={addedCount} />
+							</i>
+						)}
 					</motion.button>
 				</div>
 			</motion.div>

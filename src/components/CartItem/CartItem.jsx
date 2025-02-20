@@ -1,6 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { addToCart, minusItem, removeFromCart } from '../../redux/slices/cartSlice'
+import NumberFlow from '@number-flow/react'
 
 const CartItem = ({ id, title, count, imageUrl, price, type, size }) => {
 	const dispatch = useDispatch()
@@ -32,8 +33,8 @@ const CartItem = ({ id, title, count, imageUrl, price, type, size }) => {
 				<img className='pizza-block__image' src={imageUrl} alt='Pizza' />
 			</div>
 			<div className='cart__item-info'>
-				<h3>{title}</h3>
-				<p>{type}, {size} см.</p>
+				<h3>{title} </h3>
+				<p> {type} , {size}  см.</p>
 			</div>
 			<div className='cart__item-count'>
 				<div className='button button--outline button--circle cart__item-count-minus' onClick={onClickMinus}>
@@ -54,7 +55,7 @@ const CartItem = ({ id, title, count, imageUrl, price, type, size }) => {
 						/>
 					</svg>
 				</div>
-				<b>{count > 0 ? count : 0}</b>
+				<b> <NumberFlow trend={0} value={count > 0 ? count : 0} /></b>
 				<div className='button button--outline button--circle cart__item-count-plus' onClick={onClickPlus}>
 					<svg
 						width={10}
@@ -75,7 +76,14 @@ const CartItem = ({ id, title, count, imageUrl, price, type, size }) => {
 				</div>
 			</div>
 			<div className='cart__item-price'>
-				<b>{price * count} ₽</b>
+				<b><NumberFlow value={price * count} trend={0} format={
+					{
+						style: 'currency',
+						trailingZeroDisplay: 'stripIfInteger',
+            currency: 'RUB',
+						suffix: ' ₽'
+					}
+				}/></b>
 			</div>
 			<div className='cart__item-remove' onClick={removeItem}>
 				<div className='button button--outline button--circle'>

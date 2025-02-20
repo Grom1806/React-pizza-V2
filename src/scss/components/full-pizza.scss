@@ -1,0 +1,31 @@
+.full-pizza-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;	
+	.full-pizza {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		gap: 20px;
+	}
+	.full-pizza__info {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		gap: 20px;
+	}
+	.full-pizza__price {
+		font-size: 24px;
+		font-weight: 700;
+	}
+	.full-pizza__buttons {
+		width: 100%;
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+		gap: 20px;
+	}
+}
+

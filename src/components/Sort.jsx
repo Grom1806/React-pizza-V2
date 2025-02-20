@@ -1,96 +1,97 @@
-import { useState, useEffect, useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { setSort } from '../redux/slices/filterSlice'
-import { motion } from 'framer-motion'
+import { motion } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectSort, setSort } from '../redux/slices/filterSlice';
 
 export const sortList = [
-	{ name: 'популярности по возрастанию', sortProperty: '-rating' },
-	{ name: 'популярности по убыванию', sortProperty: 'rating' },
-	{ name: 'цене по возрастанию', sortProperty: '-price' },
-	{ name: 'цене по убыванию', sortProperty: 'price' },
-	{ name: 'алфавиту по возрастанию', sortProperty: '-title' },
-	{ name: 'алфавиту по убыванию', sortProperty: 'title' },
-]
+  { name: 'популярности по возрастанию', sortProperty: '-rating' },
+  { name: 'популярности по убыванию', sortProperty: 'rating' },
+  { name: 'цене по возрастанию', sortProperty: '-price' },
+  { name: 'цене по убыванию', sortProperty: 'price' },
+  { name: 'алфавиту по возрастанию', sortProperty: '-title' },
+  { name: 'алфавиту по убыванию', sortProperty: 'title' },
+];
 
 function Sort() {
-	const dispatch = useDispatch()
-	const sort = useSelector(state => state.filter.sort)
+  const dispatch = useDispatch();
+  const sort = useSelector(selectSort);
 
-	const [isVisible, setIsVisible] = useState(false)
-	const sortRef = useRef(null)
+  const [isVisible, setIsVisible] = useState(false);
+  const sortRef = useRef(null);
 
-	// Закрытие списка при клике вне компонента
-	useEffect(() => {
-		const handleClickOutside = event => {
-			if (sortRef.current && !sortRef.current.contains(event.target)) {
-				setIsVisible(false)
-			}
-		}
 
-		if (isVisible) {
-			document.addEventListener('mousedown', handleClickOutside)
-		} else {
-			document.removeEventListener('mousedown', handleClickOutside)
-		}
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (sortRef.current && !sortRef.current.contains(event.target)) {
+        setIsVisible(false);
+      }
+    };
 
-		return () => {
-			document.removeEventListener('mousedown', handleClickOutside)
-		}
-	}, [isVisible])
+    document.addEventListener('mousedown', handleClickOutside);
 
-	// Обработчик клика по элементу сортировки
-	const handleClickListItem = obj => {
-		dispatch(setSort(obj))
-		setIsVisible(false)
-	}
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
-	return (
-		<div className='sort' ref={sortRef}>
-			<div className='sort__label'>
-				<motion.svg
-					className={isVisible ? 'arrow rotate' : 'arrow'}
-					width='10'
-					height='6'
-					viewBox='0 0 10 6'
-					fill='none'
-					xmlns='http://www.w3.org/2000/svg'
-					initial={{ rotate: 0 }}
-					animate={{ rotate: isVisible ? 180 : 0 }}
-					transition={{ duration: 0.3 }}
-				>
-					<path
-						d='M10 5C10 5.16927 9.93815 5.31576 9.81445 5.43945C9.69075 5.56315 9.54427 5.625 9.375 5.625H0.625C0.455729 5.625 0.309245 5.56315 0.185547 5.43945C0.061849 5.31576 0 5.16927 0 5C0 4.83073 0.061849 4.68424 0.185547 4.56055L4.56055 0.185547C4.68424 0.061849 4.83073 0 5 0C5.16927 0 5.31576 0.061849 5.43945 0.185547L9.81445 4.56055C9.93815 4.68424 10 4.83073 10 5Z'
-						fill='#2C2C2C'
-					/>
-				</motion.svg>
-				<b>Сортировка по:</b>
-				<span onClick={() => setIsVisible(!isVisible)}>{sort.name}</span>
-			</div>
+  const handleClickListItem = (obj) => {
+    dispatch(setSort(obj));
+    setIsVisible(false);
+  };
 
-			<motion.div
-				className='sort__popup'
-				initial={{ opacity: 0, y: -10 }}
-				animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : -10 }}
-				transition={{ duration: 0.3 }}
-				style={{ pointerEvents: isVisible ? 'auto' : 'none' }}
-			>
-				<ul>
-					{sortList.map((obj, index) => (
-						<motion.li
-							key={index}
-							initial={{ opacity: 0 }}
-							animate={{ opacity: 1 }}
-							transition={{ delay: index * 0.05, duration: 0.3 }}
-							className={sort.name === obj.name ? 'active' : ''}
-							onClick={() => handleClickListItem(obj)}
-						>
-							{obj.name}
-						</motion.li>
-					))}
-				</ul>
-			</motion.div>
-		</div>
-	)
+  return (
+    <div className="sort" ref={sortRef}>
+      <div className="sort__label">
+        <motion.svg
+          className={isVisible ? 'arrow rotate' : 'arrow'}
+          width="10"
+          height="6"
+          viewBox="0 0 10 6"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          initial={{ rotate: 0 }}
+          animate={{ rotate: isVisible ? 180 : 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <path
+            d="M10 5C10 5.16927 9.93815 5.31576 9.81445 5.43945C9.69075 5.56315 9.54427 5.625 9.375 5.625H0.625C0.455729 5.625 0.309245 5.56315 0.185547 5.43945C0.061849 5.31576 0 5.16927 0 5C0 4.83073 0.061849 4.68424 0.185547 4.56055L4.56055 0.185547C4.68424 0.061849 4.83073 0 5 0C5.16927 0 5.31576 0.061849 5.43945 0.185547L9.81445 4.56055C9.93815 4.68424 10 4.83073 10 5Z"
+            fill="#2C2C2C"
+          />
+        </motion.svg>
+        <b>Сортировка по:</b>
+        <span onClick={() => setIsVisible(!isVisible)}>{sort.name}</span>
+      </div>
+
+      <motion.div
+        className="sort__popup"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{
+          opacity: isVisible ? 1 : 0,
+          y: isVisible ? 0 : -10,
+        }}
+        transition={{ duration: 0.3 }}
+        style={{ pointerEvents: isVisible ? 'auto' : 'none' }}
+      >
+        <ul>
+          {sortList.map((obj, index) => (
+            <motion.li
+              key={index}
+              animate={{ opacity: 1 }}
+              transition={{ delay: index * 0.05, duration: 0.3 }}
+              className={sort.name === obj.name ? 'active' : ''}
+              onClick={() => handleClickListItem(obj)}
+              whileHover={{
+                scale: 1.1, 
+                transition: { duration: 0.2 },
+              }}
+            >
+              {obj.name}
+            </motion.li>
+          ))}
+        </ul>
+      </motion.div>
+    </div>
+  );
 }
 
-export default Sort
+export default Sort;
