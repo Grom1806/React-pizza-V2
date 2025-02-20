@@ -2,7 +2,6 @@ import NumberFlow from '@number-flow/react'
 import { motion } from 'framer-motion'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation } from 'react-router-dom'
-import logo from '../assets/img/pizza-logo.svg'
 import { cartSelector } from '../redux/slices/cartSlice'
 import { setFilters } from '../redux/slices/filterSlice'
 import Search from './Search/Search'
@@ -30,7 +29,7 @@ function Header() {
 				<Link to='/' className='header__logo' onClick={removeFilters}>
 					<motion.img
 						width='38'
-						src={logo}
+						src='/pizza-logo.svg'
 						alt='Pizza logo'
 						initial={{ scale: 0 }}
 						animate={{ scale: 1 }}
