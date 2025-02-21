@@ -1,0 +1,91 @@
+{
+  "env": {
+    "browser": true, // Поддержка браузерного окружения
+    "es2021": true, // Поддержка ES2021
+    "node": true // Поддержка Node.js
+  },
+  "parser": "@typescript-eslint/parser", // Парсер для TypeScript
+  "parserOptions": {
+    "ecmaVersion": "latest", // Использовать последнюю версию ECMAScript
+    "sourceType": "module", // Использовать ES-модули
+    "ecmaFeatures": {
+      "jsx": true // Поддержка JSX
+    }
+  },
+  "extends": [
+    "eslint:recommended", // Рекомендуемые правила ESLint
+    "plugin:@typescript-eslint/recommended", // Рекомендуемые правила для TypeScript
+    "plugin:react/recommended", // Рекомендуемые правила для React
+    "plugin:react-hooks/recommended", // Рекомендуемые правила для React Hooks
+    "plugin:jsx-a11y/recommended", // Рекомендуемые правила для доступности JSX
+    "plugin:import/recommended", // Рекомендуемые правила для импортов
+    "plugin:import/typescript", // Поддержка TypeScript для импортов
+    "plugin:prettier/recommended" // Интеграция с Prettier
+  ],
+  "plugins": [
+    "@typescript-eslint", // Плагин для TypeScript
+    "react", // Плагин для React
+    "react-hooks", // Плагин для React Hooks
+    "jsx-a11y", // Плагин для доступности JSX
+    "import", // Плагин для работы с импортами
+    "prettier" // Плагин для Prettier
+  ],
+  "rules": {
+    // Общие правила
+    "no-console": "warn", // Предупреждать об использовании console
+    "no-unused-vars": "off", // Отключить встроенное правило (заменено на @typescript-eslint)
+    "no-extra-semi": "error", // Запретить лишние точки с запятой
+
+    // Правила для TypeScript
+    "@typescript-eslint/no-unused-vars": "warn", // Предупреждать о неиспользуемых переменных
+    "@typescript-eslint/no-explicit-any": "warn", // Предупреждать об использовании any
+    "@typescript-eslint/explicit-module-boundary-types": "off", // Не требовать явных типов возврата
+    "@typescript-eslint/no-empty-function": "warn", // Предупреждать о пустых функциях
+
+    // Правила для React
+    "react/react-in-jsx-scope": "off", // React 17+ не требует импорта React
+    "react/prop-types": "off", // Отключить проверку prop-types (TypeScript уже делает это)
+    "react/jsx-uses-react": "error", // Предупреждать, если React не используется в JSX
+    "react/jsx-uses-vars": "error", // Предупреждать о неиспользуемых переменных в JSX
+
+    // Правила для React Hooks
+    "react-hooks/rules-of-hooks": "error", // Проверять правила использования хуков
+    "react-hooks/exhaustive-deps": "warn", // Проверять зависимости useEffect
+
+    // Правила для доступности
+    "jsx-a11y/alt-text": "warn", // Требовать alt у изображений
+    "jsx-a11y/anchor-is-valid": "warn", // Проверять валидность ссылок
+
+    // Правила для импортов
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+        "newlines-between": "always", // Добавлять пустую строку между группами
+        "alphabetize": { "order": "asc", "caseInsensitive": true } // Сортировать импорты по алфавиту
+      }
+    ],
+    "import/no-unresolved": "off", // Отключить проверку unresolved (TypeScript уже делает это)
+
+    // Правила для Prettier
+    "prettier/prettier": [
+      "error",
+      {
+        "semi": true, // Точки с запятой
+        "singleQuote": true, // Одинарные кавычки
+        "trailingComma": "all", // Висячие запятые
+        "printWidth": 80, // Максимальная длина строки
+        "tabWidth": 2, // Ширина табуляции
+        "endOfLine": "auto" // Автоматически определять конец строки
+      }
+    ]
+  },
+  "settings": {
+    "react": {
+      "version": "detect" // Автоматически определять версию React
+    },
+    "import/resolver": {
+      "typescript": {} // Использовать TypeScript для разрешения импортов
+    }
+  }
+}

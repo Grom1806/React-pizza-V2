@@ -9,7 +9,6 @@ import Skeleton from '../components/PizzaBlock/Skeleton'
 import Sort, { sortList } from '../components/Sort'
 import { selectFilter, setFilters, setTotalPages } from '../redux/slices/filterSlice'
 import { fetchPizzas, selectPizzaData } from '../redux/slices/pizzasSlice'
-
 export default function Home() {
     const navigate = useNavigate()
     const dispatch = useDispatch()

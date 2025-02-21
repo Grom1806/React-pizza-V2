@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
-import { setTotalPages } from './filterSlice'
+import { setTotalPages } from './filterSlice.ts'
 
 export const fetchPizzas = createAsyncThunk(
   'pizzas/fetchPizzasStatus',

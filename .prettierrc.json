@@ -1,0 +1,18 @@
+{
+  "printWidth": 80, // Максимальная длина строки (в символах)
+  "tabWidth": 2, // Ширина табуляции (в пробелах)
+  "useTabs": false, // Использовать пробелы вместо табуляции
+  "semi": true, // Добавлять точку с запятой в конце выражений
+  "singleQuote": true, // Использовать одинарные кавычки вместо двойных
+  "quoteProps": "as-needed", // Кавычки для свойств объектов: "as-needed" (только при необходимости), "consistent" (везде одинаково), "preserve" (оставлять как есть)
+  "jsxSingleQuote": false, // Использовать одинарные кавычки в JSX
+  "trailingComma": "all", // Висячие запятые: "none" (не использовать), "es5" (в ES5-совместимых местах), "all" (везде)
+  "bracketSpacing": true, // Добавлять пробелы между фигурными скобками и содержимым
+  "bracketSameLine": false, // Размещать закрывающую скобку на новой строке в JSX
+  "arrowParens": "always", // Скобки вокруг аргументов стрелочных функций: "always" (всегда), "avoid" (когда можно опустить)
+  "proseWrap": "preserve", // Перенос текста в Markdown: "always" (всегда), "never" (никогда), "preserve" (оставлять как есть)
+  "htmlWhitespaceSensitivity": "css", // Чувствительность к пробелам в HTML: "css" (соответствует CSS), "strict" (строго), "ignore" (игнорировать)
+  "endOfLine": "lf", // Символы конца строки: "lf" (Linux/macOS), "crlf" (Windows), "auto" (автоматически)
+  "embeddedLanguageFormatting": "auto", // Форматирование встроенных языков (например, CSS в JS): "auto" (автоматически), "off" (отключить)
+  "singleAttributePerLine": false // Размещать каждый атрибут на новой строке в JSX
+}

@@ -1,0 +1,75 @@
+{
+  "compilerOptions": {
+    /* Основные настройки */
+    "target": "ESNext",                       // Использовать последнюю версию ECMAScript (ESNext).
+    "module": "ESNext",                       // Использовать современные модули (ES Modules).
+    "lib": ["ESNext", "DOM"],                 // Включить поддержку всех современных API (ESNext + DOM).
+    "allowJs": true,                          // Разрешить компиляцию JavaScript-файлов.
+    "checkJs": true,                          // Проверять типы в JavaScript-файлах.
+    "jsx": "react-jsx",                       // Использовать новый JSX-рантайм (React 17+).
+    "declaration": true,                      // Генерировать файлы .d.ts.
+    "declarationMap": true,                   // Генерировать sourcemap для .d.ts.
+    "sourceMap": true,                        // Генерировать sourcemap.
+    "outDir": "./dist",                       // Директория для выходных файлов.
+    "rootDir": "./src",                       // Корневая директория для исходных файлов.
+    "composite": true,                        // Включить поддержку проектов.
+    "incremental": true,                      // Включить инкрементальную компиляцию.
+    "tsBuildInfoFile": "./dist/.tsbuildinfo", // Файл для хранения информации об инкрементальной компиляции.
+    "removeComments": true,                   // Удалять комментарии из выходного кода.
+    "noEmit": false,                          // Не генерировать выходные файлы (только проверка типов).
+    "importHelpers": true,                    // Импортировать вспомогательные функции из 'tslib'.
+    "downlevelIteration": true,               // Поддержка итераторов для старых версий JavaScript.
+    "isolatedModules": true,                  // Транспилировать каждый файл как отдельный модуль.
+
+    /* Строгая проверка типов */
+    "strict": true,                           // Включить все строгие проверки типов.
+    "noImplicitAny": true,                    // Вызывать ошибку, если тип неявно подразумевается как 'any'.
+    "strictNullChecks": true,                 // Включить строгую проверку на null и undefined.
+    "strictFunctionTypes": true,              // Включить строгую проверку типов функций.
+    "strictBindCallApply": true,              // Включить строгую проверку для методов 'bind', 'call' и 'apply'.
+    "strictPropertyInitialization": true,     // Включить строгую проверку инициализации свойств в классах.
+    "noImplicitThis": true,                   // Вызывать ошибку, если 'this' подразумевается как 'any'.
+    "alwaysStrict": true,                     // Парсить код в строгом режиме и добавлять "use strict".
+
+    /* Дополнительные проверки */
+    "noUnusedLocals": true,                   // Сообщать об ошибках, если есть неиспользуемые локальные переменные.
+    "noUnusedParameters": true,               // Сообщать об ошибках, если есть неиспользуемые параметры.
+    "noImplicitReturns": true,                // Сообщать об ошибке, если не все пути в функции возвращают значение.
+    "noFallthroughCasesInSwitch": true,       // Сообщать об ошибках, если в switch есть case, который "проваливается".
+    "noUncheckedIndexedAccess": true,         // Включать проверку на 'undefined' при доступе по индексу.
+
+    /* Настройки разрешения модулей */
+    "moduleResolution": "node",               // Использовать стратегию разрешения модулей Node.js.
+    "baseUrl": "./",                          // Базовая директория для разрешения неабсолютных путей модулей.
+    "paths": {                                // Переопределять пути для импортов.
+      "@/*": ["src/*"]
+    },
+    "rootDirs": ["./src"],                    // Корневые директории для исходных файлов.
+    "typeRoots": ["./node_modules/@types"],   // Директории для типов.
+    "types": ["node", "jest"],                // Типы, которые должны быть включены в компиляцию.
+    "allowSyntheticDefaultImports": true,     // Разрешать импорт по умолчанию из модулей без экспорта по умолчанию.
+    "esModuleInterop": true,                  // Включать совместимость между CommonJS и ES Modules.
+    "preserveSymlinks": true,                 // Не разрешать реальный путь для символьных ссылок.
+    "resolveJsonModule": true,                // Разрешать импорт JSON-файлов.
+
+    /* Настройки source map */
+    "sourceRoot": "./src",                    // Указывать, где искать исходные файлы для отладки.
+    "mapRoot": "./dist",                      // Указывать, где искать source map файлы.
+    "inlineSourceMap": false,                 // Встраивать source map в выходной файл.
+    "inlineSources": false,                   // Встраивать исходный код в source map.
+
+    /* Экспериментальные настройки */
+    "experimentalDecorators": true,           // Включать поддержку экспериментальных декораторов.
+    "emitDecoratorMetadata": true,            // Включать генерацию метаданных для декораторов.
+
+    /* Дополнительные настройки */
+    "skipLibCheck": true,                     // Пропускать проверку типов в файлах деклараций.
+    "forceConsistentCasingInFileNames": true, // Запрещать несовместимые регистры в именах файлов.
+    "noErrorTruncation": true,                // Не обрезать сообщения об ошибках.
+    "preserveConstEnums": true,               // Сохранять const enum в выходном коде.
+    "newLine": "lf",                          // Указывать символы конца строки: 'crlf' (Windows) или 'lf' (Unix).
+    "useDefineForClassFields": true           // Включать поддержку стандартных полей класса в ECMAScript.
+  },
+  "include": ["src/**/*"],                    // Включать все файлы в директории src.
+  "exclude": ["node_modules", "dist"]    // Исключить node_modules и dist.
+}

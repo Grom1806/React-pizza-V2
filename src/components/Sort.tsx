@@ -21,7 +21,7 @@ function Sort() {
 
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: any) => {
       if (sortRef.current && !sortRef.current.contains(event.target)) {
         setIsVisible(false);
       }
@@ -34,7 +34,7 @@ function Sort() {
     };
   }, []);
 
-  const handleClickListItem = (obj) => {
+  const handleClickListItem = (obj: object) => {
     dispatch(setSort(obj));
     setIsVisible(false);
   };
