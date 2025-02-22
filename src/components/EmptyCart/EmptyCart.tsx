@@ -1,10 +1,10 @@
 import React from 'react';
 import { ShoppingCart } from 'lucide-react';
-import * as styles from './EmptyCart.module.scss';
+import  styles from './EmptyCart.module.scss';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
-const EmptyCart = () => {
+const EmptyCart:React.FC = () => {
   return (
     <motion.div
       className={styles.container}

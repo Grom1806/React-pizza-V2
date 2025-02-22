@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { addToCart, selectCartItemById } from '../../redux/slices/cartSlice'
+import { addToCart, selectCartItemById } from '@/redux/slices/cartSlice'
 
 const typeNames = ['тонкое', 'традиционное']
 

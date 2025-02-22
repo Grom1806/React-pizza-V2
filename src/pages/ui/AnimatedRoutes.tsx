@@ -23,7 +23,7 @@ const pageVariants = {
 
 
  function AnimatedRoutes() {
-  const location = useLocation();
+  const location: any = useLocation();
 
   return (
 <AnimatePresence mode="wait">

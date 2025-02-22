@@ -4,10 +4,13 @@ import { BrowserRouter } from 'react-router-dom'
 import App from './App'
 import { store } from './redux/store'
 
-createRoot(document.getElementById('root') as HTMLElement).render(
+const rootElement = document.getElementById('root')
+if(rootElement){
+createRoot(rootElement).render(
 	<BrowserRouter>
 		<Provider store={store}>
 			<App />
 		</Provider>
 	</BrowserRouter>
 )
+}

@@ -1,19 +1,26 @@
+import NumberFlow from '@number-flow/react'
 import axios from 'axios'
 import { motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 import { addToCart, selectCartItemById } from '../redux/slices/cartSlice'
-import NumberFlow from '@number-flow/react'
 
 const typeNames = ['Тонкое', 'Традиционное']
 
-const FullPizza = () => {
+const FullPizza: React.FC = () => {
 	const { id } = useParams()
 	const dispatch = useDispatch()
-	const [pizza, setPizza] = useState(null)
-	const [activeType, setActiveType] = useState(0)
-	const [activeSize, setActiveSize] = useState(0)
+	const [pizza, setPizza] = useState<{
+		id: string
+		title: string
+		price: number
+		imageUrl: string
+		types: number[]
+		sizes: number[]
+	}>()
+	const [activeType, setActiveType] = useState<number>(0)
+	const [activeSize, setActiveSize] = useState<number>(0)
 	const cartItem = useSelector(selectCartItemById(id))
 	const addedCount = cartItem ? cartItem.count : 0
 

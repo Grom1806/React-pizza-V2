@@ -2,8 +2,8 @@ import NumberFlow from '@number-flow/react'
 import { motion } from 'framer-motion'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation } from 'react-router-dom'
-import { cartSelector } from '../redux/slices/cartSlice'
-import { setFilters } from '../redux/slices/filterSlice'
+import { cartSelector } from '@/redux/slices/cartSlice'
+import { setFilters } from '@/redux/slices/filterSlice'
 import Search from './Search/Search'
 
 function Header() {
@@ -57,7 +57,7 @@ function Header() {
 										style: 'currency',
 										currency: 'RUB',
 										trailingZeroDisplay: 'stripIfInteger',
-										suffix: ' ₽',
+										useGrouping: true,
 									}}
 								/>
 							</span>

@@ -3,7 +3,8 @@ import Header from './components/Header'
 import AnimatedRoutes from '@/pages/ui/AnimatedRoutes'
 import './scss/app.scss'
 
-function App() {
+function App(): JSX.Element {
+	
 	return (
 		<div className='wrapper'>
 			<Header />

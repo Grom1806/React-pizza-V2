@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { setCategoryId } from '../redux/slices/filterSlice';
+import { setCategoryId } from '@/redux/slices/filterSlice';
 import { motion } from 'framer-motion';
 
 function Categories() {

@@ -1,7 +1,7 @@
-import { motion } from 'framer-motion';
-import { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectSort, setSort } from '../redux/slices/filterSlice';
+import { selectSort, setSort } from '@/redux/slices/filterSlice'
+import { motion } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 export const sortList = [
   { name: 'популярности по возрастанию', sortProperty: '-rating' },
@@ -12,12 +12,12 @@ export const sortList = [
   { name: 'алфавиту по убыванию', sortProperty: 'title' },
 ];
 
-function Sort() {
+function Sort()  {
   const dispatch = useDispatch();
   const sort = useSelector(selectSort);
 
-  const [isVisible, setIsVisible] = useState(false);
-  const sortRef = useRef(null);
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const sortRef:any = useRef(null);
 
 
   useEffect(() => {
