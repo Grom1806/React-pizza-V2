@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
-import { addToCart, selectCartItemById } from '../redux/slices/cartSlice'
+import { addToCart, selectCartItemById } from '@/redux/slices/cartSlice'
 
 const typeNames = ['Тонкое', 'Традиционное']
 

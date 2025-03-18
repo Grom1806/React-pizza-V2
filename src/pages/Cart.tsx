@@ -7,10 +7,10 @@ import CartItem from '../components/CartItem/CartItem'
 import EmptyCart from '../components/EmptyCart/EmptyCart'
 import { cartSelector, clearCart } from '../redux/slices/cartSlice'
 
-const Cart = () => {
+const Cart: React.FC = () => {
 	const dispatch = useDispatch()
 	const { totalPrice, pizzas } = useSelector(cartSelector)
-	const totalCount = pizzas.reduce((sum, obj) => sum + obj.count, 0)
+	const totalCount: number = pizzas.reduce((sum: number, obj: {count: number}) => sum + obj.count, 0)
 	const onClickClear = () => {
 		if (window.confirm('Вы действительно хотите очистить корзину?')) {
 			dispatch(clearCart())

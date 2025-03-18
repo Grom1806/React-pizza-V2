@@ -13,8 +13,8 @@ const theme = createTheme({
   },
 });
 
-const PaginationComponent = () => {
-  const { currentPage, totalPages } = useSelector(state => state.filter);
+const PaginationComponent: React.FC = () => {
+  const { currentPage, totalPages } = useSelector((state) => state.filter);
   const dispatch = useDispatch();
 
   // Плавная анимация изменения страницы

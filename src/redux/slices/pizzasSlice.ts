@@ -1,12 +1,23 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
-import { setTotalPages } from './filterSlice.ts'
+import { setTotalPages } from './filterSlice'
+import { RootState } from '../store.js'
+
+
+type FetchPizzasArgs = {
+	category: string
+	sortBy: string
+	order: string
+	search: string
+	page: string
+	limit: number
+}
 
 export const fetchPizzas = createAsyncThunk(
   'pizzas/fetchPizzasStatus',
-  async (params, { rejectWithValue, dispatch }) => {
+  async (params: FetchPizzasArgs, { rejectWithValue, dispatch }) => {
     try {
-      const { category, sortBy, order, search, page, limit, fullPizzaPage} = params
+      const { category, sortBy, order, search, page, limit} = params
       const { data } = await axios.get(
         `https://67366061aafa2ef222305c73.mockapi.io/pizza-block?${category}&sortBy=${sortBy}&order=${order}${search}${page}`
       )
@@ -14,7 +25,7 @@ export const fetchPizzas = createAsyncThunk(
         `https://67366061aafa2ef222305c73.mockapi.io/pizza-block?${category}${search}`
       )
 			dispatch(setTotalPages(Math.ceil(totalData.length / limit)))
-      return { pizzas: data}
+      return { pizzas: data as Pizza[], totalPizzas: totalData.length as number }
     } catch (error) {
       console.error('Error fetching pizzas:', error)
 			return rejectWithValue(error)
@@ -22,8 +33,22 @@ export const fetchPizzas = createAsyncThunk(
   }
 )
 
+type Pizza = {
+  id: string;
+  title: string;
+  price: number;
+  imageUrl: string;
+  sizes: number[];
+  types: number[];
+}
 
-const initialState = {
+export interface PizzaSliceState {
+	pizzas: Pizza[]
+	totalPizzas: number
+	status: 'loading' | 'success' | 'error'
+}
+
+const initialState: PizzaSliceState = {
 	pizzas: [],
 	totalPizzas: 0,
 	status: 'loading', // 'loading' | 'success' | 'error'
@@ -57,6 +82,6 @@ const pizzasSlice = createSlice({
 	},
 })
 
-export const selectPizzaData = (state) => state.pizzas
+export const selectPizzaData = (state: RootState) => state.pizzas
 
 export default pizzasSlice.reducer

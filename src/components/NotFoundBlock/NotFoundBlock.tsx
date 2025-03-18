@@ -1,8 +1,8 @@
 import React from 'react'
-import * as styles from './NotFoundBlock.module.scss'
+import styles from './NotFoundBlock.module.scss'
 
 
-export default function NotFoundBlock() {
+ const NotFoundBlock:React.FC = () => {
 	return (
 		<>
 <section className={styles.page_404}>
@@ -27,3 +27,4 @@ export default function NotFoundBlock() {
 		</>
 	)
 }
+export default NotFoundBlock

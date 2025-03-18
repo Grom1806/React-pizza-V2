@@ -70,6 +70,6 @@
     "newLine": "lf",                          // Указывать символы конца строки: 'crlf' (Windows) или 'lf' (Unix).
     "useDefineForClassFields": true           // Включать поддержку стандартных полей класса в ECMAScript.
   },
-  "include": ["src/**/*"],                    // Включать все файлы в директории src.
+  "include": ["src/**/*", "src/@types"],                    // Включать все файлы в директории src.
   "exclude": ["node_modules", "dist"]    // Исключить node_modules и dist.
 }

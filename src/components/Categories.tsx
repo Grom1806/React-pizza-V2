@@ -2,11 +2,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setCategoryId } from '@/redux/slices/filterSlice';
 import { motion } from 'framer-motion';
 
-function Categories() {
+const Categories: React.FC = () => {
   const dispatch = useDispatch();
   const categoryId = useSelector(state => state.filter.categoryId);
 
-  const categories = [
+  const categories: string[] = [
     'Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые',
   ];
 
@@ -42,6 +42,8 @@ function Categories() {
               padding: '10px 15px',
               fontWeight: categoryId === i ? 'bold' : 'normal',
               backgroundColor: categoryId === i ? '#FE5F1E' : 'transparent',
+              scale: 1.05, // Highlight on hover
+              opacity: 1, // Restore brightness on hover
               color: categoryId === i ? '#fff' : '#000',
             }}
           >

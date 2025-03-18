@@ -1,28 +1,27 @@
 import debounce from 'lodash.debounce'
-import React, { useCallback, useRef, useState } from 'react'
+import  { useCallback, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { setSearchValue } from '../../redux/slices/filterSlice'
-import * as styles from './search.module.scss'
-import { motion } from 'framer-motion'
+import styles from './search.module.scss'
 
-const Search = () => {
-	const [value, setValue] = useState('')
+const Search: React.FC = () => {
+	const [value, setValue] = useState<string>('')
 	const dispatch = useDispatch()
-	const inputRef = useRef(null)
+	const inputRef = useRef<HTMLInputElement>(null)
 
 	const onClickClear = () => {
 		dispatch(setSearchValue(''))
 		setValue('')
-		inputRef.current.focus()
+		inputRef.current?.focus()
 	}
 
 	const updateSearchValue = useCallback(
-		debounce(str => {
+		debounce((str: string) => {
 			dispatch(setSearchValue(str))
 		}, 250),
 		[]
 	)
-	const handleClickInput = event => {
+	const handleClickInput = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setValue(event.target.value)
 		updateSearchValue(event.target.value)
 	}
@@ -33,7 +32,6 @@ const Search = () => {
 				className={styles.searchIcon}
 				height='512px'
 				id='Layer_1'
-				style={{ enableBackground: 'new 0 0 512 512' }}
 				version='1.1'
 				viewBox='0 0 512 512'
 				width='512px'
@@ -47,12 +45,13 @@ const Search = () => {
 				placeholder='Поиск по названию пиццы...'
 				value={value}
 				onChange={e => handleClickInput(e)}
+				ref={inputRef}
+
 			/>
 			{value && (
 				<button
 					className={styles.clearButton}
 					onClick={onClickClear}
-					ref={inputRef}
 				>
 					X
 				</button>

@@ -8,7 +8,7 @@ import Search from './Search/Search'
 
 function Header() {
 	const { totalPrice, pizzas } = useSelector(cartSelector)
-	const totalCount = pizzas.reduce((sum, obj) => sum + obj.count, 0)
+	const totalCount = pizzas.reduce((sum: number, obj: {count: number}) => sum + obj.count, 0)
 	const dispatch = useDispatch()
 	const location = useLocation()
 

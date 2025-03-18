@@ -3,11 +3,20 @@ import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { addToCart, selectCartItemById } from '@/redux/slices/cartSlice'
+import { addToCart, CartItem, selectCartItemById } from '@/redux/slices/cartSlice'
 
 const typeNames = ['тонкое', 'традиционное']
 
-function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
+type PizzaBlockProps = {
+	id: string
+	title: string
+	price: number
+	imageUrl: string
+	sizes: number[]
+	types: number[]
+}
+
+const PizzaBlock: React.FC<PizzaBlockProps> = ({ id, title, price, imageUrl, sizes, types }) => {
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
 	const cartItem = useSelector(selectCartItemById(id))
@@ -16,13 +25,14 @@ function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
 
 	const addedCount = cartItem ? cartItem.count : 0
 	const onClickAdd = () => {
-		const item = {
+		const item: CartItem = {
 			id,
 			title,
 			price,
 			imageUrl,
-			type: typeNames[activeType],
-			size: sizes[activeSize],
+			type: typeNames[activeType]!,
+			size: sizes[activeSize]!,
+			count: 0
 		}
 		dispatch(addToCart(item))
 	}

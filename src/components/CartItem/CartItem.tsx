@@ -3,7 +3,17 @@ import { useDispatch } from 'react-redux'
 import { addToCart, minusItem, removeFromCart } from '../../redux/slices/cartSlice'
 import NumberFlow from '@number-flow/react'
 
-const CartItem = ({ id, title, count, imageUrl, price, type, size }) => {
+type CartItemProps = {
+	id: string
+	title: string
+	count: number
+	imageUrl: string
+	price: number
+	type: string
+	size: number
+}
+
+const CartItem: React.FC<CartItemProps> = ({ id, title, count, imageUrl, price, type, size }) => {
 	const dispatch = useDispatch()
 	const onClickPlus = () => {
 		dispatch(
@@ -81,7 +91,6 @@ const CartItem = ({ id, title, count, imageUrl, price, type, size }) => {
 						style: 'currency',
 						trailingZeroDisplay: 'stripIfInteger',
             currency: 'RUB',
-						suffix: ' ₽'
 					}
 				}/></b>
 			</div>

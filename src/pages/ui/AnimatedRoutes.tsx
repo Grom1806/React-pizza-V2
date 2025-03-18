@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Cart from '../Cart';
 import Home from '../Home';
 import NotFound from '../NotFound';
-import '../../scss/app.scss';
+import '@/scss/app.scss';
 import FullPizza from '../FullPizza';
 const pageVariants = {
   initial: { opacity: 0, scale: 0.95, y: 30 },
@@ -23,7 +23,7 @@ const pageVariants = {
 
 
  function AnimatedRoutes() {
-  const location: any = useLocation();
+  const location = useLocation();
 
   return (
 <AnimatePresence mode="wait">

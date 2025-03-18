@@ -3,13 +3,22 @@ import { motion } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-export const sortList = [
+
+
+type SortList = {
+  name: string
+  sortProperty: string
+}
+
+export const sortList: SortList[] = [
   { name: 'популярности по возрастанию', sortProperty: '-rating' },
   { name: 'популярности по убыванию', sortProperty: 'rating' },
   { name: 'цене по возрастанию', sortProperty: '-price' },
   { name: 'цене по убыванию', sortProperty: 'price' },
   { name: 'алфавиту по возрастанию', sortProperty: '-title' },
   { name: 'алфавиту по убыванию', sortProperty: 'title' },
+  { name: 'алфавиту по убыванию', sortProperty: 'title' },
+  
 ];
 
 function Sort()  {
@@ -17,12 +26,12 @@ function Sort()  {
   const sort = useSelector(selectSort);
 
   const [isVisible, setIsVisible] = useState<boolean>(false);
-  const sortRef:any = useRef(null);
+  const sortRef = useRef<HTMLDivElement>(null);
 
 
   useEffect(() => {
-    const handleClickOutside = (event: any) => {
-      if (sortRef.current && !sortRef.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (sortRef.current && !sortRef.current.contains(event.target as Node)) {
         setIsVisible(false);
       }
     };
@@ -34,7 +43,7 @@ function Sort()  {
     };
   }, []);
 
-  const handleClickListItem = (obj: object) => {
+  const handleClickListItem = (obj: {}) => {
     dispatch(setSort(obj));
     setIsVisible(false);
   };
