@@ -7,19 +7,18 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-"scripts": {
-  "dev": "vite", 
-  "build": "tsc && vite build", 
-  "lint": "eslint 'src/**/*.{ts,tsx}' --fix", 
-  "format": "prettier --write 'src/**/*.{ts,tsx,js,jsx,css,scss,json}'", 
-  "type-check": "tsc --noEmit", 
-  "preview": "vite preview", 
-  "test": "vitest", 
-  "coverage": "vitest run --coverage", 
-  "prepare": "husky install", 
-  "start": "npm run dev", 
-  "clean": "rimraf dist .tsbuildinfo" 
-},
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "eslint 'src/**/*.{ts,tsx}' --fix",
+    "format": "prettier --write 'src/**/*.{ts,tsx,js,jsx,css,scss,json}'",
+    "type-check": "tsc --noEmit",
+    "preview": "vite preview",
+    "test": "vitest",
+    "coverage": "vitest run --coverage",
+    "start": "npm run dev",
+    "clean": "rimraf dist .tsbuildinfo"
+  },
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
@@ -50,13 +49,15 @@
     "react-router-dom": "^7.1.5",
     "react-transition-group": "^4.4.5",
     "sass": "^1.80.6",
-    "styled-components": "^6.1.14"
+    "styled-components": "^6.1.14",
+    "typescript": "^5.8.2"
   },
   "devDependencies": {
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.3",
     "globals": "^15.11.0",
+    "husky": "^9.1.7",
     "vite": "^5.4.10"
   }
 }
