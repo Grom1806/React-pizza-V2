@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../store'
 
-type Sort = {
+export type Sort = {
 	name: string,
-	sortProperty: 'rating' | 'title' | 'price'| '-rating' | '-title' | '-price',
+	sortProperty: 'rating' | 'title' | 'price' | '-rating' | '-title' | '-price',
 }
+
 export interface FiltersState {
 	categoryId: number,
 	sort: Sort,
@@ -25,6 +26,7 @@ const initialState: FiltersState = {
 	totalPages: 1,
 	currentPage: 1,
 }
+
 const filterSlice = createSlice({
 	name: 'filters',
 	initialState,
@@ -41,34 +43,22 @@ const filterSlice = createSlice({
 		setTotalPages(state, action: PayloadAction<number>) {
 			state.totalPages = action.payload
 		},
-		setCurrentPage: (state, action: PayloadAction<number>) => {
+		setCurrentPage(state, action: PayloadAction<number>) {
 			state.currentPage = action.payload
 		},
 		setFilters(state, action: PayloadAction<FiltersState>) {
-			state.categoryId =
-				action.payload.categoryId !== undefined
-					? Number(action.payload.categoryId)
-					: 0
+			state.categoryId = action.payload.categoryId
 			state.sort = action.payload.sort || initialState.sort
 			state.searchValue = action.payload.searchValue || ''
-			state.limit =
-				action.payload.limit !== undefined
-					? Number(action.payload.limit)
-					: initialState.limit
-			state.currentPage =
-				action.payload.currentPage !== undefined
-					? Number(action.payload.currentPage)
-					: 1
-			state.totalPages =
-				action.payload.totalPages !== undefined
-					? Number(action.payload.totalPages)
-					: 1
+			state.limit = action.payload.limit || initialState.limit
+			state.currentPage = action.payload.currentPage || 1
+			state.totalPages = action.payload.totalPages || 1
 		},
 	},
 })
 
 export const selectFilter = (state: RootState) => state.filter
-export const selectSort = (state:RootState) => state.filter.sort
+export const selectSort = (state: RootState) => state.filter.sort
 
 export const {
 	setCategoryId,

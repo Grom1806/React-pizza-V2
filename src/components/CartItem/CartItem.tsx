@@ -1,7 +1,7 @@
-import React from 'react'
-import { useDispatch } from 'react-redux'
-import { addToCart, minusItem, removeFromCart } from '../../redux/slices/cartSlice'
+import { useAppDispatch } from '@/redux/store'
 import NumberFlow from '@number-flow/react'
+import React from 'react'
+import { addToCart, minusItem, removeFromCart } from '../../redux/slices/cartSlice'
 
 type CartItemProps = {
 	id: string
@@ -14,11 +14,17 @@ type CartItemProps = {
 }
 
 const CartItem: React.FC<CartItemProps> = ({ id, title, count, imageUrl, price, type, size }) => {
-	const dispatch = useDispatch()
+	const dispatch = useAppDispatch()
 	const onClickPlus = () => {
 		dispatch(
 			addToCart({
 				id,
+				title,
+				price,
+				imageUrl,
+				type,
+				size,
+				count: 1
 			})
 		)
 	}

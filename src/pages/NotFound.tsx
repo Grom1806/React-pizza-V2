@@ -1,4 +1,3 @@
-import React from 'react'
 import NotFoundBlock from '../components/NotFoundBlock/NotFoundBlock'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'

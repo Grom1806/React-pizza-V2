@@ -1,7 +1,7 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import axios from 'axios'
-import { setTotalPages } from './filterSlice'
 import { RootState } from '../store.js'
+import { setTotalPages } from './filterSlice'
 
 
 type FetchPizzasArgs = {
@@ -18,14 +18,14 @@ export const fetchPizzas = createAsyncThunk(
   async (params: FetchPizzasArgs, { rejectWithValue, dispatch }) => {
     try {
       const { category, sortBy, order, search, page, limit} = params
-      const { data } = await axios.get(
+      const { data } = await axios.get<Pizza[]>(
         `https://67366061aafa2ef222305c73.mockapi.io/pizza-block?${category}&sortBy=${sortBy}&order=${order}${search}${page}`
       )
-      const { data: totalData } = await axios.get(
+      const { data: totalData } = await axios.get<number[]>(
         `https://67366061aafa2ef222305c73.mockapi.io/pizza-block?${category}${search}`
       )
 			dispatch(setTotalPages(Math.ceil(totalData.length / limit)))
-      return { pizzas: data as Pizza[], totalPizzas: totalData.length as number }
+      return { pizzas: data, totalPizzas: totalData.length}
     } catch (error) {
       console.error('Error fetching pizzas:', error)
 			return rejectWithValue(error)
@@ -42,16 +42,22 @@ type Pizza = {
   types: number[];
 }
 
+enum Status {
+	LOADING = 'loading',
+	SUCCESS = 'success',
+	ERROR = 'error',
+}
+
 export interface PizzaSliceState {
 	pizzas: Pizza[]
 	totalPizzas: number
-	status: 'loading' | 'success' | 'error'
+	status: Status
 }
 
 const initialState: PizzaSliceState = {
 	pizzas: [],
 	totalPizzas: 0,
-	status: 'loading', // 'loading' | 'success' | 'error'
+	status: Status.LOADING // 'loading' | 'success' | 'error'
 }
 
 
@@ -59,7 +65,7 @@ const pizzasSlice = createSlice({
 	name: 'pizzas',
 	initialState,
 	reducers: {
-		setPizzas(state, action) {
+		setPizzas(state, action: PayloadAction<PizzaSliceState>) {
 			state.pizzas = action.payload.pizzas
 			state.totalPizzas = action.payload.totalPizzas
 		},
@@ -67,16 +73,16 @@ const pizzasSlice = createSlice({
 	extraReducers: (builder) => {
 		builder
 			.addCase(fetchPizzas.pending, (state) => {
-				state.status = 'loading'
+				state.status = Status.LOADING
 				state.pizzas = []
 			})
 			.addCase(fetchPizzas.fulfilled, (state, action) => {
 				state.pizzas = action.payload.pizzas
 				state.totalPizzas = action.payload.totalPizzas
-				state.status = 'success'
+				state.status = Status.SUCCESS
 			})
 			.addCase(fetchPizzas.rejected, (state) => {
-				state.status = 'error'
+				state.status = Status.ERROR
 				state.pizzas = []
 			})
 	},

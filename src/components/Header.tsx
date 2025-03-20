@@ -1,15 +1,16 @@
 import NumberFlow from '@number-flow/react'
 import { motion } from 'framer-motion'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Link, useLocation } from 'react-router-dom'
 import { cartSelector } from '@/redux/slices/cartSlice'
 import { setFilters } from '@/redux/slices/filterSlice'
 import Search from './Search/Search'
+import { useAppDispatch } from '@/redux/store'
 
 function Header() {
 	const { totalPrice, pizzas } = useSelector(cartSelector)
 	const totalCount = pizzas.reduce((sum: number, obj: {count: number}) => sum + obj.count, 0)
-	const dispatch = useDispatch()
+	const dispatch = useAppDispatch()
 	const location = useLocation()
 
 	const removeFilters = () => {
@@ -19,6 +20,8 @@ function Header() {
 				categoryId: 0,
 				currentPage: 1,
 				sort: { name: 'популярности', sortProperty: 'rating' },
+				limit: 4,
+				totalPages: 1
 			})
 		)
 	}

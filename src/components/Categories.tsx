@@ -1,10 +1,11 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { setCategoryId } from '@/redux/slices/filterSlice';
 import { motion } from 'framer-motion';
+import { RootState, useAppDispatch } from '@/redux/store'
 
 const Categories: React.FC = () => {
-  const dispatch = useDispatch();
-  const categoryId = useSelector(state => state.filter.categoryId);
+  const dispatch = useAppDispatch();
+  const categoryId = useSelector((state: RootState) => state.filter.categoryId);
 
   const categories: string[] = [
     'Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые',

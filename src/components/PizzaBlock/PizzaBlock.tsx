@@ -1,9 +1,10 @@
+import { addToCart, CartItem, selectCartItemById } from '@/redux/slices/cartSlice'
+import { useAppDispatch } from '@/redux/store'
 import NumberFlow from '@number-flow/react'
 import { motion } from 'framer-motion'
 import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { addToCart, CartItem, selectCartItemById } from '@/redux/slices/cartSlice'
 
 const typeNames = ['тонкое', 'традиционное']
 
@@ -17,7 +18,7 @@ type PizzaBlockProps = {
 }
 
 const PizzaBlock: React.FC<PizzaBlockProps> = ({ id, title, price, imageUrl, sizes, types }) => {
-	const dispatch = useDispatch()
+	const dispatch = useAppDispatch()
 	const navigate = useNavigate()
 	const cartItem = useSelector(selectCartItemById(id))
 	const [activeType, setActiveType] = useState(0)

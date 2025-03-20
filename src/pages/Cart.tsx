@@ -1,14 +1,15 @@
+import { useAppDispatch } from '@/redux/store'
 import NumberFlow from '@number-flow/react'
 import { motion } from 'framer-motion'
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import CartItem from '../components/CartItem/CartItem'
 import EmptyCart from '../components/EmptyCart/EmptyCart'
 import { cartSelector, clearCart } from '../redux/slices/cartSlice'
 
 const Cart: React.FC = () => {
-	const dispatch = useDispatch()
+	const dispatch = useAppDispatch()
 	const { totalPrice, pizzas } = useSelector(cartSelector)
 	const totalCount: number = pizzas.reduce((sum: number, obj: {count: number}) => sum + obj.count, 0)
 	const onClickClear = () => {
@@ -133,7 +134,6 @@ const Cart: React.FC = () => {
 											style: 'currency',
 											currency: 'RUB',
 											trailingZeroDisplay: 'stripIfInteger',
-											suffix: ' ₽'
 										}}
 										value={totalPrice}
 									/>{' '}

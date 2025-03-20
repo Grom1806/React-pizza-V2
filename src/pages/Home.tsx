@@ -1,17 +1,18 @@
-import qs from 'qs'
-import React, { useEffect, useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 import Categories from '@/components/Categories'
 import PaginationComponent from '@/components/Pagination/Pagination'
 import PizzaBlock from '@/components/PizzaBlock/PizzaBlock'
 import Skeleton from '@/components/PizzaBlock/Skeleton'
 import Sort from '@/components/Sort'
-import { selectFilter,  } from '@/redux/slices/filterSlice'
+import { selectFilter, } from '@/redux/slices/filterSlice'
 import { fetchPizzas, selectPizzaData } from '@/redux/slices/pizzasSlice'
+import { useAppDispatch } from '@/redux/store'
+import qs from 'qs'
+import React, { useEffect, useRef } from 'react'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
  const Home: React.FC = () => {
     const navigate = useNavigate()
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     
     const { limit, searchValue, sort, categoryId, currentPage, totalPages } =
         useSelector(selectFilter)
@@ -29,7 +30,7 @@ import { fetchPizzas, selectPizzaData } from '@/redux/slices/pizzasSlice'
         const page: string = `&page=${currentPage}&limit=${limit}`
 
         dispatch(
-            // @ts-ignore
+            
             fetchPizzas({ category, sortBy, order, search, page, limit })
         )
     }

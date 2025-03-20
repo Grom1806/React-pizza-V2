@@ -1,16 +1,13 @@
 import { selectSort, setSort } from '@/redux/slices/filterSlice'
+import type { Sort } from '@/redux/slices/filterSlice'
+import { useAppDispatch } from '@/redux/store'
 import { motion } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 
 
-type SortList = {
-  name: string
-  sortProperty: string
-}
-
-export const sortList: SortList[] = [
+export const sortList: Sort[] = [
   { name: 'популярности по возрастанию', sortProperty: '-rating' },
   { name: 'популярности по убыванию', sortProperty: 'rating' },
   { name: 'цене по возрастанию', sortProperty: '-price' },
@@ -22,7 +19,7 @@ export const sortList: SortList[] = [
 ];
 
 function Sort()  {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const sort = useSelector(selectSort);
 
   const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -43,7 +40,7 @@ function Sort()  {
     };
   }, []);
 
-  const handleClickListItem = (obj: {}) => {
+  const handleClickListItem = (obj: Sort) => {
     dispatch(setSort(obj));
     setIsVisible(false);
   };

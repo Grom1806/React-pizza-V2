@@ -1,9 +1,10 @@
-import Pagination from '@mui/material/Pagination';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentPage } from '../../redux/slices/filterSlice';
-import { motion } from 'framer-motion';
+import { RootState, useAppDispatch } from '@/redux/store'
+import Pagination from '@mui/material/Pagination'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+import { motion } from 'framer-motion'
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
+import { setCurrentPage } from '../../redux/slices/filterSlice'
 
 const theme = createTheme({
   palette: {
@@ -14,13 +15,13 @@ const theme = createTheme({
 });
 
 const PaginationComponent: React.FC = () => {
-  const { currentPage, totalPages } = useSelector((state) => state.filter);
-  const dispatch = useDispatch();
+  const { currentPage, totalPages } = useSelector((state: RootState) => state.filter);
+  const dispatch = useAppDispatch();
 
   // Плавная анимация изменения страницы
   const [isPageChanging, setIsPageChanging] = useState(false);
 
-  const handlePageChange = (_, num) => {
+  const handlePageChange = (_: React.ChangeEvent<unknown>, num: number) => {
     setIsPageChanging(true);
     dispatch(setCurrentPage(num));
 
@@ -41,14 +42,6 @@ const PaginationComponent: React.FC = () => {
           opacity: 0,
           scale: 0.9,
           transition: { duration: 0.2, ease: 'easeIn' },
-        }}
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          mt: 3,
-          '& .MuiPaginationItem-root': {
-            fontWeight: 'bold',
-          },
         }}
       >
         <Pagination
